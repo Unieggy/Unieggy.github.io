@@ -1,0 +1,10 @@
+:HL["/_next/static/chunks/09xk9gqk54vxr.css","style"]
+:HL["/_next/static/media/2a65768255d6b625-s.p.14by5b4al-y~f.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/83afe278b6a6bb3c-s.p.0q-301v4kxxnr.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["https://placehold.co/400x300/161c18/3d5048?text=Sudoku","image"]
+:HL["https://placehold.co/400x500/161c18/3d5048?text=Engineering","image"]
+:HL["https://placehold.co/400x300/161c18/3d5048?text=Matcha","image"]
+:HL["https://placehold.co/400x300/161c18/3d5048?text=Plushies","image"]
+:HL["https://placehold.co/400x300/161c18/3d5048?text=Daydreaming","image"]
+:HL["https://placehold.co/400x300/161c18/3d5048?text=Multitasking","image"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"hobbies","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"uC-pvOIBmAUYiyiki11Yh"}
