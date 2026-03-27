@@ -5,4 +5,4 @@
 :HL["https://placehold.co/256x144/161c18/3d5048?text=LeRobot+SO-101","image"]
 :HL["https://placehold.co/256x144/161c18/3d5048?text=Cloth+Policy","image"]
 :HL["https://placehold.co/256x144/161c18/3d5048?text=Sim2Real","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"projects","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"L0vpjwQ4ir4zmCxWsJy9v"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"projects","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"Oe6mUr5jUwDYfGcd6qb6c"}
