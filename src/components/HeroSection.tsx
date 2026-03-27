@@ -52,7 +52,7 @@ export default function HeroSection() {
       <div className="shrink-0">
         <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-2xl overflow-hidden border border-surface-border ring-1 ring-sage/20 shadow-lg shadow-black/40">
           <img
-            src="https://placehold.co/176x176/161c18/5c7365?text=Photo"
+            src="/selfie2.jpg"
             alt="Profile photo placeholder"
             className="w-full h-full object-cover"
           />
