@@ -1,6 +1,6 @@
 :HL["/_next/static/chunks/09xk9gqk54vxr.css","style"]
 :HL["/_next/static/media/2a65768255d6b625-s.p.14by5b4al-y~f.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/83afe278b6a6bb3c-s.p.0q-301v4kxxnr.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-:HL["https://placehold.co/176x176/161c18/5c7365?text=Photo","image"]
+:HL["/selfie2.jpg","image"]
 :HL["https://placehold.co/208x117/161c18/3d5048?text=ACE+2024","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}},"staleTime":300,"buildId":"uC-pvOIBmAUYiyiki11Yh"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}},"staleTime":300,"buildId":"L0vpjwQ4ir4zmCxWsJy9v"}
