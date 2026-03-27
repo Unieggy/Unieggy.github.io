@@ -20,27 +20,27 @@ const GoogleScholarIcon = () => (
 const socials = [
   {
     label: "Email",
-    href: "mailto:mike@example.com",
+    href: "mil188@ucsd.edu",
     icon: () => <Mail size={16} strokeWidth={1.5} />,
   },
   {
     label: "LinkedIn",
-    href: "https://linkedin.com",
+    href: "https://www.linkedin.com/in/michael-lai-00b72232b/",
     icon: LinkedInIcon,
   },
   {
     label: "Google Scholar",
-    href: "https://scholar.google.com",
+    href: "https://scholar.google.com/citations?user=dN1yQBsAAAAJ&hl=en&oi=sra",
     icon: GoogleScholarIcon,
   },
   {
     label: "GitHub",
-    href: "https://github.com",
+    href: "https://github.com/Unieggy.com",
     icon: GitHubIcon,
   },
   {
     label: "X / Twitter",
-    href: "https://x.com",
+    href: "https://x.com/Mike38594656822.com",
     icon: () => <X size={16} strokeWidth={1.5} />,
   },
 ];
@@ -63,11 +63,10 @@ export default function HeroSection() {
       <div className="flex flex-col items-center sm:items-start gap-4 text-center sm:text-left">
         <div>
           <h1 className="font-serif text-4xl sm:text-5xl font-semibold text-parchment tracking-tight mb-3">
-            Mike
+            Zeyu (Michael) Lai
           </h1>
           <p className="text-ash text-base sm:text-lg leading-relaxed max-w-lg">
-            Researcher specializing in imitation learning, reinforcement
-            learning, and bimanual robotic assembly.
+           Undergraduate Student interested in imitation learning, reinforcement learning, and generalist policy learning
           </p>
         </div>
 

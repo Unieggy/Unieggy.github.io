@@ -37,41 +37,41 @@ function noise(x: number, y: number): number {
   );
 }
 
-// ── Component ──────────────────────────────────────────────────────────────
 export default function FlowField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouseRef  = useRef({ x: -9999, y: -9999 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d")!;
+    const ctx = canvas.getContext("2d", { alpha: false })!;
 
-    let rafId    = 0;
-    let t        = 0;
-    let lastTime = 0;
+    let rafId = 0;
+    let t = 0;
     let W = 0;
     let H = 0;
+    let seeds: { x: number; y: number }[] = [];
 
-    const FPS_CAP = 1000 / 30; // 30 fps is plenty for a slow ambient field
+    // Mouse: parked far off-screen until cursor enters the viewport
+    let mouseX = -9999;
+    let mouseY = -9999;
+    let smoothX = -9999;
+    let smoothY = -9999;
 
-    // ── Design parameters ────────────────────────────────────────────────
+    // ── Parameters ─────────────────────────────────────────────────────────
     //
-    // Very low noise frequency → curves have a "wavelength" > viewport width,
-    // producing long sweeping arcs instead of tight curls.
-    const NOISE_SCALE  = 0.00065;
-    const ANGLE_RANGE  = Math.PI * 2.4; // full angle sweep without over-rotating
-    const STEP         = 5;             // px per integration step
-    const STEPS        = 80;            // 80 × 5 px = 400 px per line
-    const LINE_W       = 0.5;
+    // NOISE_SCALE is the single most important dial.
+    // Very low (0.001) = enormous, gentle curves → lines naturally bundle
+    // into thick ribbons with wide negative space between them.
+    const NOISE_SCALE    = 0.0012;  // frequency of the flow field
+    const STEP_LEN       = 2;      // px per integration step
+    const STEPS          = 780;    // how long each streamline grows
+    const LINE_W         = 0.45;   // hairline — weight comes from overlap
+    const LINE_ALPHA     = 0.12;   // very low; density built by many overlapping strands
+    const NUM_SEEDS      = 560;    // number of streamlines
+    const WARP_RADIUS    = 290;    // px — mouse influence radius
+    const WARP_STRENGTH  = 40;     // px — max displacement of noise sample point
 
-    // Mouse repulsion radius. Larger = wider void.
-    const REPEL_R      = 110;
-
-    // Golden ratio for quasi-random uniform seed distribution
-    const PHI = 1.6180339887;
-
-    // ── Resize ───────────────────────────────────────────────────────────
+    // ── Resize: regenerate fixed seed positions ─────────────────────────────
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       W = window.innerWidth;
@@ -81,125 +81,99 @@ export default function FlowField() {
       canvas.style.width  = `${W}px`;
       canvas.style.height = `${H}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      // Seeds are fixed spatial starting points. Each frame the streamlines
+      // are re-integrated from these same origins, so the field "breathes"
+      // as t advances rather than having lines jump around.
+      // Spreading 20% beyond the canvas edges avoids visible seam artefacts.
+      seeds = Array.from({ length: NUM_SEEDS }, () => ({
+        x: (Math.random() * 1.4 - 0.2) * W,
+        y: (Math.random() * 1.4 - 0.2) * H,
+      }));
     };
 
-    // ── Input ────────────────────────────────────────────────────────────
-    const onMouseMove  = (e: MouseEvent) => { mouseRef.current = { x: e.clientX, y: e.clientY }; };
-    const onMouseLeave = ()              => { mouseRef.current = { x: -9999, y: -9999 }; };
+    // ── Mouse handlers ──────────────────────────────────────────────────────
+    const onMouseMove = (e: MouseEvent) => { mouseX = e.clientX; mouseY = e.clientY; };
+    const onMouseLeave = () => { mouseX = -9999; mouseY = -9999; };
 
-    window.addEventListener("resize",     resize);
-    window.addEventListener("mousemove",  onMouseMove);
-    window.addEventListener("mouseleave", onMouseLeave);
-    resize();
+    window.addEventListener("resize", resize);
+    window.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseleave", onMouseLeave);
+    setTimeout(resize, 50);
 
-    // ── Frame loop ───────────────────────────────────────────────────────
-    function frame(ts: number) {
+    // ── Frame loop ──────────────────────────────────────────────────────────
+    function frame() {
       rafId = requestAnimationFrame(frame);
-      if (ts - lastTime < FPS_CAP) return;
-      lastTime = ts;
 
-      const isDark   = document.documentElement.classList.contains("dark");
-      const bgColor  = isDark ? "#121614"       : "#f2f0eb";
-      const lineRgb  = isDark ? "42,54,48"      : "190,200,195";
-      const lineOpacity = 0.4;
+      // Smooth mouse so the warp fades in and out organically
+      smoothX += (mouseX - smoothX) * 0.09;
+      smoothY += (mouseY - smoothY) * 0.09;
 
-      const { x: mx, y: my } = mouseRef.current;
+      const isDark = document.documentElement.classList.contains("dark");
 
-      // Full clear each frame — crisp streamlines with no trail accumulation.
-      // The animated "motion" comes from the slowly-evolving noise field (t).
-      ctx.fillStyle = bgColor;
+      // Hard clear every frame — streamlines are permanent, not accumulated.
+      // This is the opposite of the fading-trail approach: each frame is a
+      // complete, clean redraw of all strands at the current t.
+      ctx.fillStyle = isDark ? "#121614" : "#f2f0eb";
       ctx.fillRect(0, 0, W, H);
 
-      // Line count scales with viewport area
-      const lineCount = Math.max(80, Math.round((W * H) / 7000));
-
+      // Hairline strokes in the site's sage palette, very low opacity.
+      // Visual density is emergent: dozens of strands converging in the
+      // noise "valleys" stack their alpha and form the bright ribbons.
       ctx.lineWidth   = LINE_W;
-      ctx.strokeStyle = `rgba(${lineRgb},${lineOpacity})`;
+      ctx.strokeStyle = isDark
+        ? `rgba(192, 208, 200, ${LINE_ALPHA})`  // silver-sage on charcoal
+        : `rgba(48, 65, 57, ${LINE_ALPHA})`;    // dark ink on warm off-white
 
-      // Batch all streamlines into one path — single stroke() call per frame
       ctx.beginPath();
 
-      for (let i = 0; i < lineCount; i++) {
-        // Quasi-random seed positions via golden-ratio sequence.
-        // Small time-varying jitter prevents any zone from being permanently
-        // empty while keeping the overall distribution uniform.
-        let x = ((i * PHI)       % 1) * W + noise(i * 0.31,       t * 0.06) * 18;
-        let y = ((i * PHI * PHI) % 1) * H + noise(i * 0.47 + 100, t * 0.06) * 18;
+      const r2 = WARP_RADIUS * WARP_RADIUS;
 
-        ctx.moveTo(x, y);
+      for (const seed of seeds) {
+        let cx = seed.x;
+        let cy = seed.y;
+        ctx.moveTo(cx, cy);
 
-        for (let s = 0; s < STEPS; s++) {
-          // ── Flow direction from two-octave Perlin noise ─────────────────
-          // First octave: large-scale structure (wide sweeping curves)
-          // Second octave (2.1×): subtle undulation that avoids repetition
-          const n =
-            noise(x * NOISE_SCALE,         y * NOISE_SCALE         + t * 0.038) +
-            noise(x * NOISE_SCALE * 2.1 + 40, y * NOISE_SCALE * 2.1 + t * 0.025) * 0.38;
-          const angle = n * ANGLE_RANGE;
+        for (let i = 0; i < STEPS; i++) {
+          // Base noise sample coordinates, slowly drifting with t
+          let sx = cx * NOISE_SCALE + t;
+          let sy = cy * NOISE_SCALE + t;
 
-          // Natural unit-velocity from the noise field
-          let vx = Math.cos(angle);
-          let vy = Math.sin(angle);
-
-          // ── Mouse repulsion: "rock in a river" ──────────────────────────
-          //
-          // Physics: a rock in a river deflects streamlines tangentially —
-          // it does NOT break or scatter them. Achieved by projecting out
-          // the velocity component pointing *toward* the cursor.
-          //
-          // If a streamline would head toward the cursor, we remove that
-          // inward component, leaving only the tangential part.
-          // At full influence (cursor centre) the line becomes perfectly
-          // tangential to the repulsion circle and glides cleanly around it.
-          const dx = x - mx;
-          const dy = y - my;
-          const d2 = dx * dx + dy * dy;
-
-          if (d2 < REPEL_R * REPEL_R && d2 > 0.25) {
-            const d  = Math.sqrt(d2);
-            const rx = dx / d; // unit vector pointing away from cursor
-            const ry = dy / d;
-
-            // Dot product: how much of the velocity is heading toward cursor
-            // (negative because rx/ry points away, so inward = –dot)
-            const inward = -(vx * rx + vy * ry);
-
-            if (inward > 0) {
-              // Smooth falloff: full effect near centre, none at edge
-              const influence = Math.pow(1 - d / REPEL_R, 1.5);
-              // Remove the inward component proportionally
-              vx += rx * inward * influence;
-              vy += ry * inward * influence;
-              // Re-normalise so step size stays constant
-              const len = Math.sqrt(vx * vx + vy * vy) || 1;
-              vx /= len;
-              vy /= len;
-            }
+          // Mouse warp: push the noise sample point outward from the cursor.
+          // Displacing the *sample point* (not the angle directly) produces
+          // a smooth, organic parting of the flow field — strands appear to
+          // stream around an invisible obstacle rather than being yanked.
+          const dx    = cx - smoothX;
+          const dy    = cy - smoothY;
+          const dist2 = dx * dx + dy * dy;
+          if (dist2 < r2 && dist2 > 0.001) {
+            const dist      = Math.sqrt(dist2);
+            const influence = (1 - dist2 / r2) ** 2;          // smooth falloff
+            const warp      = (influence * WARP_STRENGTH) * NOISE_SCALE;
+            sx += (dx / dist) * warp;
+            sy += (dy / dist) * warp;
           }
 
-          x += vx * STEP;
-          y += vy * STEP;
-
-          // Clip at canvas boundary — no wrap, lines terminate at edge
-          if (x < 0 || x > W || y < 0 || y > H) break;
-
-          ctx.lineTo(x, y);
+          const angle = noise(sx, sy) * Math.PI * 1.8;
+          cx += Math.cos(angle) * STEP_LEN;
+          cy += Math.sin(angle) * STEP_LEN;
+          ctx.lineTo(cx, cy);
         }
       }
 
       ctx.stroke();
 
-      // Slow drift: full angle period completes in ~50 s at 30 fps
-      t += 0.004;
+      // Very slow drift — the field shifts and breathes over tens of seconds
+      t += 0.00025;
     }
 
     rafId = requestAnimationFrame(frame);
 
     return () => {
       cancelAnimationFrame(rafId);
-      window.removeEventListener("resize",     resize);
-      window.removeEventListener("mousemove",  onMouseMove);
-      window.removeEventListener("mouseleave", onMouseLeave);
+      window.removeEventListener("resize", resize);
+      window.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseleave", onMouseLeave);
     };
   }, []);
 

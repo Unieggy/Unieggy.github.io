@@ -38,15 +38,7 @@ export default function RootLayout({
         <ThemeProvider>
           <FlowField />
           <Navigation />
-          <main className="pt-16 min-h-screen">
-            {/* Solid background only on the centred content column.
-                The canvas is visible in the full viewport behind this wrapper;
-                the wrapper itself only spans the max-content width so the
-                flow shows in the gutters and behind the nav. */}
-            <div className="relative z-10 mx-auto max-w-5xl bg-surface/90 backdrop-blur-sm">
-              {children}
-            </div>
-          </main>
+          <main className="pt-16 min-h-screen">{children}</main>
         </ThemeProvider>
       </body>
     </html>

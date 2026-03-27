@@ -52,7 +52,7 @@ export default function Navigation() {
           href="/"
           className="font-serif text-xl font-semibold text-parchment tracking-tight hover:text-sage transition-colors duration-200"
         >
-          Mike
+          Zeyu Lai
         </Link>
 
         {/* Right side: nav links + theme toggle */}
