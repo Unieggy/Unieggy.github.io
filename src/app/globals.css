@@ -1,26 +1,72 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ─── Design tokens (Tailwind registers these as utilities via var()) ──────── */
+@theme {
+  --color-surface: #121614;
+  --color-surface-raised: #161c18;
+  --color-surface-border: #242d28;
+  --color-sage: #5c7365;
+  --color-sage-deep: #3d5048;
+  --color-sage-light: #7a9e8c;
+  --color-parchment: #e0e5e2;
+  --color-ash: #8a9a92;
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ─── Dark mode (default / .dark class on <html>) ──────────────────────────── */
+html.dark {
+  --color-surface: #121614;
+  --color-surface-raised: #161c18;
+  --color-surface-border: #242d28;
+  --color-sage: #5c7365;
+  --color-sage-deep: #3d5048;
+  --color-sage-light: #7a9e8c;
+  --color-parchment: #e0e5e2;
+  --color-ash: #8a9a92;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Light mode (.light class, or absence of .dark) ──────────────────────── */
+html:not(.dark) {
+  --color-surface: #f2f0eb;
+  --color-surface-raised: #e8e5de;
+  --color-surface-border: #c8c4bb;
+  --color-sage: #3d5e51;
+  --color-sage-deep: #4a6d60;
+  --color-sage-light: #2c4039;
+  --color-parchment: #1c211e;
+  --color-ash: #4a5750;
+}
+
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-surface);
+  color: var(--color-parchment);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+::selection {
+  background-color: var(--color-sage-deep);
+  color: var(--color-parchment);
+}
+
+/* ─── Scrollbar ────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-sage-deep);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-sage);
 }
