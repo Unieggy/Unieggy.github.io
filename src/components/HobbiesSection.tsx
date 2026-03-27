@@ -3,42 +3,42 @@ const hobbies = [
     title: "Sudoku",
     caption:
       "Solving complex grids. A daily ritual for pattern recognition and mental clarity.",
-    imageSrc: "https://placehold.co/400x300/161c18/3d5048?text=Sudoku",
+    imageSrc: "/sudoku.png",
     span: "col-span-1 row-span-1",
   },
   {
     title: "Meaningless Engineering",
     caption:
       "Building and engineering random, delightfully meaningless little contraptions just for the pure joy of making.",
-    imageSrc: "https://placehold.co/400x500/161c18/3d5048?text=Engineering",
+    imageSrc: "/eng.jpg",
     span: "col-span-1 row-span-2",
   },
   {
     title: "Matcha Enthusiast",
     caption:
       "Consuming anything and everything matcha..",
-    imageSrc: "https://placehold.co/400x300/161c18/3d5048?text=Matcha",
+    imageSrc: "/matcha.png",
     span: "col-span-1 row-span-1",
   },
   {
     title: "Plushie Consultations",
     caption:
       "Talking to my fluffy best friends whenever I feel a bit lonely. They are excellent listeners.",
-    imageSrc: "https://placehold.co/400x300/161c18/3d5048?text=Plushies",
+    imageSrc: "/nailongxm.jpg",
     span: "col-span-1 row-span-1",
   },
   {
     title: "Anxiety-Induced Stimming (BFRB)",
     caption:
       "A Body-Focused Repetitive Behavior. When I feel anxious, my hand instinctively goes to my hair to find and untangle knots. It completely derails my focus, but it is how my brain self-regulates",
-    imageSrc: "https://placehold.co/400x300/161c18/3d5048?text=Daydreaming",
+    imageSrc: "/stress.png",
     span: "col-span-1 row-span-1",
   },
   {
     title: "Extreme Multitasking",
     caption:
       "Opening a chaotic number of browser tabs and rapid-fire context switching. Oddly enough, the digital chaos feels fulfilling.",
-    imageSrc: "https://placehold.co/400x300/161c18/3d5048?text=Multitasking",
+    imageSrc: "/multitask.jpg",
     span: "col-span-1 row-span-1",
   },
 ];

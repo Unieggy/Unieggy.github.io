@@ -1,39 +1,78 @@
 import ProjectCard from "@/components/ProjectCard";
-
 const projects = [
   {
-    title: "Aloha Robot Policy via vt-refine",
+    title: "LeRobot SO-101 VLA Policy",
+    year: "2026",
     description:
-      "An end-to-end robot learning pipeline for the Aloha bimanual platform using a visual tokenizer refinement strategy (vt-refine). The system fine-tunes a Vision-Language-Action transformer on a compact set of teleoperation demos, dramatically reducing the data requirements for high-dexterity assembly policies. Evaluated on peg insertion, cable routing, and garment folding tasks.",
-    stack: ["PyTorch", "ACT", "ROS 2", "JAX", "Aloha"],
-    githubUrl: "https://github.com",
-    imageSrc: "https://placehold.co/256x144/161c18/3d5048?text=Aloha+Policy",
+      "Currently developing an end-to-end Vision-Language-Action (VLA) policy pipeline for the LeRobot SO-101 robotic arm. The project focuses on data collection, imitation learning, and deploying state-of-the-art transformer architectures for continuous robotic manipulation tasks.",
+    stack: ["Python", "PyTorch", "LeRobot", "Hugging Face", "VLA Models", "SO-101 Arm"],
+    githubUrl: "https://github.com/Unieggy/roboticarm-project", 
+    imageSrc: "https://placehold.co/256x144/161c18/3d5048?text=LeRobot+VLA",
   },
   {
-    title: "LeRobot SO-101 Framework",
+    title: "RL & Path Planning Algorithms (Gymnasium)",
+    year: "2026",
     description:
-      "A comprehensive software framework for the LeRobot SO-101 low-cost robotic arm. Implements a modular policy training loop compatible with Diffusion Policy, ACT, and π₀ architectures. Includes hardware abstraction layers for servo control, a real-time teleoperation interface, and a dataset recording pipeline with automatic episode filtering and annotation.",
-    stack: ["Python", "LeRobot", "HuggingFace", "PyTorch", "OpenCV"],
-    githubUrl: "https://github.com",
-    imageSrc: "https://placehold.co/256x144/161c18/3d5048?text=LeRobot+SO-101",
+      "Developed a clean, extensible repository for training classic Gymnasium control tasks. Implemented classical path planning (A*, RRT*), state estimation (Kalman Filters), and a suite of Reinforcement Learning algorithms including PPO, DQN, and Tabular Q-Learning.",
+    stack: ["Python", "PyTorch", "Gymnasium", "Reinforcement Learning"],
+    githubUrl: "https://github.com/Unieggy/rl-algs-and-random-algs", 
+    imageSrc: "/rl:pathplanning.png",
   },
   {
-    title: "Diffusion Policy for Cloth Manipulation",
+    title: "Isaac RL Tasks: Custom Manipulation Environments",
+    year: "2026",
     description:
-      "Adapts the Diffusion Policy framework for garment manipulation tasks using tactile sensor fusion. Integrates DIGIT tactile sensors with RGB-D observations to condition the denoising network, achieving significant improvements over vision-only baselines on T-shirt folding and towel straightening tasks.",
-    stack: ["Diffusion Policy", "PyTorch", "DIGIT", "ROS 2", "Isaac Sim"],
-    githubUrl: "https://github.com",
-    imageSrc: "https://placehold.co/256x144/161c18/3d5048?text=Cloth+Policy",
+      "A collection of custom reinforcement learning environments built on NVIDIA's IsaacGymEnvs. Designed to port manipulation tasks from established simulators (ManiSkill, RoboSuite) into Isaac Gym's massively parallel GPU simulation for extremely fast policy training at scale.",
+    stack: ["Python", "Isaac Gym", "Reinforcement Learning", "PyTorch", "GPU Simulation"],
+    githubUrl: "https://github.com/Unieggy/isaac-rl-tasks", 
+    imageSrc: "/issacgym.jpg",
   },
   {
-    title: "Sim-to-Real Transfer Benchmark",
+    title: "Uniq: Intelligent Browser Automation",
+    year: "2026",
     description:
-      "A reproducible benchmark for evaluating sim-to-real transfer methods on bimanual tasks. Provides standardized MuJoCo simulation environments paired with real-world task setups, along with evaluation protocols and leaderboard infrastructure for the community.",
-    stack: ["MuJoCo", "IsaacLab", "Python", "FastAPI", "Next.js"],
-    githubUrl: "https://github.com",
-    imageSrc: "https://placehold.co/256x144/161c18/3d5048?text=Sim2Real",
+      "Engineered an autonomous browser agent that uses Google Gemini 3.0 Flash to decompose user tasks into multi-step plans. Developed a resilient Agent Loop featuring semantic auto-scroll, graduated failure recovery, and DOM-based interactive region detection. Built during the Google Gemini Hackathon 2026.",
+    stack: ["TypeScript", "Node.js", "Playwright", "Gemini 3 Flash", "WebSockets", "SQLite"],
+    githubUrl: "https://github.com/Unieggy/uniq",
+    imageSrc: "/uniq.png",
   },
-];
+  {
+    title: "English–Chinese NMT with Transformer",
+    year: "2024",
+    description:
+      "Built a Transformer-based neural machine translation system from scratch. Trained on Hugging Face's opus-100 parallel dataset. Includes a Gradio app for quick interactive translation and auto-detects Google Colab paths for seamless cloud training.",
+    stack: ["Python", "PyTorch", "Transformers", "SentencePiece", "Hugging Face", "Gradio"],
+    githubUrl: "https://github.com/Unieggy/transformer-nmt-en-zh", 
+    imageSrc: "/transformer.png",
+  },
+  {
+    title: "Voice-Controlled Ground-Aerial Robot",
+    year: "2025",
+    description:
+      "Designed a hybrid, multi-modal vehicle with a detachable drone basket and retractable arms. Built a system of four coordinated codebases integrating an ESP32-S3 and Arduino UNO. It transcribes audio via Deepgram and uses OpenAI GPT-4o to parse commands, executing real wheel/propeller motion in ~1 second.",
+    stack: ["C++", "Node.js", "ESP32-S3", "Deepgram API", "OpenAI API", "Arduino"],
+    githubUrl: "https://github.com/Unieggy/voice-controlled-ground-aerial-robot",
+    imageSrc: "/vehicle.jpg",
+  },
+  {
+    title: "Gesture-Based Brightness Adjuster",
+    year: "2024",
+    description:
+      "Created a contact-free webcam tool to control screen brightness using OpenCV and MediaPipe. Continuously maps thumb-index pinch distance to brightness levels, using a pinky-curl gesture as a commit trigger. Won 1st place out of 36 participants at the BASIS national hackathon.",
+    stack: ["Python", "OpenCV", "MediaPipe", "Computer Vision"],
+    githubUrl: "https://github.com/Unieggy/gesturebased-brightness-controller",
+    imageSrc: "/handtrack.jpg",
+  },
+  {
+    title: "Monte Carlo Ising Simulation",
+    year: "2024",
+    description:
+      "Simulated 2D Ising spin-lattice models using the Metropolis Monte Carlo method. Explored phase transitions, total energy calculations, and equilibrium states in statistical mechanics. Conducted as part of Cetus Research under PI Prof. Erik Luijten at Northwestern University.",
+    stack: ["Python", "NumPy", "Matplotlib", "Statistical Physics", "Algorithms"],
+    githubUrl: "https://github.com/Unieggy/ising-montecarlo-sim",
+    imageSrc: "/monte-carlo-ising-9.png",
+  },
+]
 
 export default function ProjectsPage() {
   return (
