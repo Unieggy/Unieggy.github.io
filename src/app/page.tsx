@@ -1,5 +1,6 @@
 import HeroSection from "@/components/HeroSection";
 import EducationTimeline from "@/components/EducationTimeline";
+import ExperienceTimeline from "@/components/ExperienceTimeline";
 import PublicationCard from "@/components/PublicationCard";
 
 const publications = [
@@ -22,6 +23,11 @@ export default function HomePage() {
       <div className="h-px bg-surface-border my-2" />
 
       <EducationTimeline />
+
+      {/* Divider */}
+      <div className="h-px bg-surface-border my-2" />
+
+      <ExperienceTimeline />
 
       {/* Divider */}
       <div className="h-px bg-surface-border my-2" />
