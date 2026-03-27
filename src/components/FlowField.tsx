@@ -99,7 +99,7 @@ export default function FlowField() {
       lastTime = ts;
 
       const isDark   = document.documentElement.classList.contains("dark");
-      const bgColor  = isDark ? "#121614"       : "#f4f5f4";
+      const bgColor  = isDark ? "#121614"       : "#f2f0eb";
       const lineRgb  = isDark ? "42,54,48"      : "190,200,195";
       const lineOpacity = 0.4;
 

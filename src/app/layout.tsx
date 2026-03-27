@@ -43,7 +43,7 @@ export default function RootLayout({
                 The canvas is visible in the full viewport behind this wrapper;
                 the wrapper itself only spans the max-content width so the
                 flow shows in the gutters and behind the nav. */}
-            <div className="relative z-10 mx-auto max-w-5xl bg-surface">
+            <div className="relative z-10 mx-auto max-w-5xl bg-surface/90 backdrop-blur-sm">
               {children}
             </div>
           </main>
