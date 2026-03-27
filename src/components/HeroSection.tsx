@@ -19,11 +19,6 @@ const GoogleScholarIcon = () => (
 
 const socials = [
   {
-    label: "Email",
-    href: "mil188@ucsd.edu",
-    icon: () => <Mail size={16} strokeWidth={1.5} />,
-  },
-  {
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/michael-lai-00b72232b/",
     icon: LinkedInIcon,
@@ -35,7 +30,7 @@ const socials = [
   },
   {
     label: "GitHub",
-    href: "https://github.com/Unieggy.com",
+    href: "https://github.com/Unieggy",
     icon: GitHubIcon,
   },
   {
