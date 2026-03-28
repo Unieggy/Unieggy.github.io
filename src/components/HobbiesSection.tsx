@@ -17,7 +17,7 @@ const hobbies = [
     title: "Matcha Enthusiast",
     caption:
       "Consuming anything and everything matcha..",
-    imageSrc: "/matcha.png",
+    imageSrc: "/matcha.jpg",
     span: "col-span-1 row-span-1",
   },
   {
