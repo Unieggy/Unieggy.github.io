@@ -1,4 +1,4 @@
-:HL["/_next/static/chunks/12bi_~z69.2dw.css","style"]
+:HL["/_next/static/chunks/0x0ynfy97mtfv.css","style"]
 :HL["/_next/static/media/2a65768255d6b625-s.p.14by5b4al-y~f.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/83afe278b6a6bb3c-s.p.0q-301v4kxxnr.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["https://placehold.co/256x144/161c18/3d5048?text=LeRobot+VLA","image"]
@@ -9,4 +9,4 @@
 :HL["/vehicle.jpg","image"]
 :HL["/handtrack.jpg","image"]
 :HL["/monte-carlo-ising-9.png","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"projects","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"lt30mYCjQL1HuWUw-G3zv"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"projects","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"RRyhyAyUQySjIdo4YEDQ7"}
