@@ -50,7 +50,7 @@ export default function Navigation() {
         {/* Logo */}
         <Link
           href="/"
-          className="font-serif text-xl font-semibold text-parchment tracking-tight hover:text-sage transition-colors duration-200"
+          className="font-serif text-xl font-normal text-parchment tracking-tight hover:text-sage transition-colors duration-200"
         >
           Zeyu Lai
         </Link>

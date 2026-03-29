@@ -1,4 +1,4 @@
-import { Mail, BookOpen, X } from "lucide-react";
+import {FileText, X, } from "lucide-react";
 
 // Brand SVGs (lucide dropped these in newer versions)
 const GitHubIcon = () => (
@@ -14,10 +14,21 @@ const LinkedInIcon = () => (
 );
 
 const GoogleScholarIcon = () => (
-  <BookOpen size={16} strokeWidth={1.5} />
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+    <path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z" />
+  </svg>
+);
+
+const CVIcon = () => (
+  <FileText size={16} strokeWidth={1.5} />
 );
 
 const socials = [
+  {
+    label: "CV",
+    href: "/MichaelLaiCV.pdf", 
+    icon: CVIcon,
+  },
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/michael-lai-00b72232b/",

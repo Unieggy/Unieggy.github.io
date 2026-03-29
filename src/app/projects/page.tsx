@@ -38,7 +38,7 @@ const projects = [
   },
   {
     title: "English–Chinese NMT with Transformer",
-    year: "2024",
+    year: "2025",
     description:
       "Built a Transformer-based neural machine translation system from scratch. Trained on Hugging Face's opus-100 parallel dataset. Includes a Gradio app for quick interactive translation and auto-detects Google Colab paths for seamless cloud training.",
     stack: ["Python", "PyTorch", "Transformers", "SentencePiece", "Hugging Face", "Gradio"],
