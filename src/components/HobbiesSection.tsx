@@ -57,15 +57,14 @@ export default function HobbiesSection() {
       {/* Bio */}
       <div className="text-parchment/80 text-base font-light leading-relaxed mb-10 max-w-2xl space-y-6">
         <p>
-          Hi, I'm Zeyu Lai—though I usually go by Michael. I'm a first-year undergraduate at UC San Diego. I'm mostly just a normal human trying to cure a stammer and leave my hair alone, fueled by a steady stream of matcha and kept sane by two very good plushies.
+          Hi, I'm Zeyu Lai—I go by Michael—a first-year undergraduate at UC San Diego, working on a stubborn stammer, leaving my hair alone, and surviving on matcha with help from two very reliable plushies.
         </p>
-        
         <p>
-          I have a habit of dragging chatbots into infinite, good-natured arguments until I truly understand the concept behind it.I'm also constantly trying to wrap my head around the latest shifts in generative models and robotic architectures. Rather than just reading the theory, my main goal is to get my hands as dirty as possible with actual hardware and code, building alongside and learning from the greatest minds I can find.
+          I have a habit of dragging chatbots into infinite, good-natured arguments until I truly understand the concept behind it. I'm also constantly trying to wrap my head around the latest shifts in generative models and robotic architectures. Rather than just reading the theory, my main goal is to get my hands as dirty as possible with actual hardware and code, building alongside and learning from the greatest minds I can find.
         </p>
 
         <p>
-          I also have what you might call "three-minute passions"—or, if we're being generous, extreme multitasking. My brain simply refuses to focus on just one thing at a time; for me to even feel like I'm actually working, I need to be juggling several tasks at once. I used to hate this about myself and fought it constantly, but I've slowly come to accept that I can't defy my own wiring. It's a little chaotic, but it turns out this is exactly how I operate best.
+          I also have what you might call "spiky attention"—or, if we're being generous, breadth-first thinking. My brain simply refuses to focus on just one thing at a time; for me to even feel like I'm actually working, I need to be juggling several tasks at once. I used to hate this about myself and fought it constantly, but I've slowly come to accept that I can't defy my own wiring: a little chaotic, but it turns out this is exactly how I operate best.
         </p>
       </div>
 
