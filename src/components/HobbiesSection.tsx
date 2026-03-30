@@ -50,12 +50,12 @@ export default function HobbiesSection() {
     <section className="py-16 max-w-2xl">
 
       {/* ── About ───────────────────────────────────────────── */}
-      <p className="text-xs font-medium tracking-widest text-ash uppercase mb-10">
+      <p className="text-xs font-medium tracking-widest text-ash uppercase mb-7">
         About
       </p>
 
       {/* Bio */}
-      <div className="text-parchment/80 text-base font-light leading-relaxed mb-10 max-w-2xl space-y-6">
+      <div className="text-parchment/80 text-base font-light leading-relaxed max-w-2xl space-y-6">
         <p>
           Hi, I'm Zeyu Lai—I go by Michael—a first-year undergraduate at UC San Diego, working on a stubborn stammer, leaving my hair alone, and surviving on matcha with help from two very reliable plushies.
         </p>
@@ -69,16 +69,16 @@ export default function HobbiesSection() {
       </div>
 
       {/* ── Divider ─────────────────────────────────────────── */}
-      <div className="border-t border-surface-border/40 my-20" />
+      <div className="border-t border-surface-border/60 my-15" />
 
 
       {/* Things I Love */}
-      <p className="text-xs font-medium tracking-widest text-ash uppercase mb-10">
+      <p className="text-xs font-medium tracking-widest text-ash uppercase mb-7">
         Things I Love
       </p>
 
       {/* Photo strip */}
-      <div className="flex gap-3 mb-10 overflow-x-auto pb-1">
+      <div className="flex gap-3 overflow-x-auto pb-1">
         {photos.map((p, i) => (
           <div key={i} className="shrink-0">
             <div className="w-24 h-24 overflow-hidden rounded-sm">
@@ -94,10 +94,10 @@ export default function HobbiesSection() {
       </div>
 
       {/* ── Divider ─────────────────────────────────────────── */}
-      <div className="border-t border-surface-border/40 my-20" />
+      <div className="border-t border-surface-border/60 my-15" />
 
       {/* ── Writing ─────────────────────────────────────────── */}
-      <p className="text-xs font-medium tracking-widest text-ash uppercase mb-10">
+      <p className="text-xs font-medium tracking-widest text-ash uppercase mb-7">
         Writing
       </p>
 
