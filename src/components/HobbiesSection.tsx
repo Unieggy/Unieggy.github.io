@@ -1,81 +1,157 @@
-const hobbies = [
-  {
-    title: "Sudoku",
-    caption:
-      "Solving complex grids. A daily ritual for pattern recognition and mental clarity.",
-    imageSrc: "/sudoku.png",
-    span: "col-span-1 row-span-1",
-  },
-  {
-    title: "Meaningless Engineering",
-    caption:
-      "Building and engineering random, delightfully meaningless little contraptions just for the pure joy of making.",
-    imageSrc: "/eng.jpg",
-    span: "col-span-1 row-span-2",
-  },
-  {
-    title: "Matcha Enthusiast",
-    caption:
-      "Consuming anything and everything matcha..",
-    imageSrc: "/matcha.jpg",
-    span: "col-span-1 row-span-1",
-  },
-  {
-    title: "Plushie Consultations",
-    caption:
-      "Talking to my fluffy best friends whenever I feel a bit lonely. They are excellent listeners.",
-    imageSrc: "/nailongxm.jpg",
-    span: "col-span-1 row-span-1",
-  },
-  {
-    title: "Anxiety-Induced Stimming (BFRB)",
-    caption:
-      "A Body-Focused Repetitive Behavior. When I feel anxious, my hand instinctively goes to my hair to find and untangle knots. It completely derails my focus, but it is how my brain self-regulates",
-    imageSrc: "/stress.png",
-    span: "col-span-1 row-span-1",
-  },
-  {
-    title: "Extreme Multitasking",
-    caption:
-      "Opening a chaotic number of browser tabs and rapid-fire context switching. Oddly enough, the digital chaos feels fulfilling.",
-    imageSrc: "/multitask.jpg",
-    span: "col-span-1 row-span-1",
-  },
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { posts as allPosts } from "@/data/posts";
+
+type Category = "All" | "Technical" | "Personal" | "Random Ideas";
+
+const categories: Category[] = ["All", "Technical", "Personal", "Random Ideas"];
+
+const categoryMeta: Record<
+  Exclude<Category, "All">,
+  { color: string; shape: "square" | "circle" | "diamond" }
+> = {
+  Technical:      { color: "#6b8f7a", shape: "square"  },
+  Personal:       { color: "#c4956a", shape: "circle"  },
+  "Random Ideas": { color: "#9b8fc4", shape: "diamond" },
+};
+
+function Shape({ type, color }: { type: "square" | "circle" | "diamond"; color: string }) {
+  const base: React.CSSProperties = {
+    display: "inline-block",
+    width: 7,
+    height: 7,
+    backgroundColor: color,
+    flexShrink: 0,
+  };
+  if (type === "circle")  return <span style={{ ...base, borderRadius: "50%" }} />;
+  if (type === "diamond") return <span style={{ ...base, transform: "rotate(45deg)" }} />;
+  return <span style={{ ...base, borderRadius: 1 }} />;
+}
+
+const photos = [
+  { label: "Sudoku",       src: "/sudoku.png" },
+  { label: "Engineering",  src: "/eng.jpg" },
+  { label: "Matcha",       src: "/matcha.jpg" },
+  { label: "Plushies",     src: "/nailongxm.jpg" },
+  { label: "Multitasking", src: "/multitask.jpg" },
+  { label: "BFRB",         src: "/stress.png" },
 ];
 
+
 export default function HobbiesSection() {
+  const [active, setActive] = useState<Category>("All");
+
+  const filtered =
+    active === "All" ? allPosts : allPosts.filter((p) => p.category === active);
+
   return (
-    <section className="py-12">
-      <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-parchment mb-3">
-        Hobbies
-      </h1>
-      <p className="text-ash text-base mb-10 max-w-lg">
-        Things I care about and pursue outside of research.
+    <section className="py-16 max-w-2xl">
+
+      {/* ── About ───────────────────────────────────────────── */}
+      <p className="text-xs font-medium tracking-widest text-ash uppercase mb-10">
+        About
       </p>
 
-      {/* Masonry-style grid */}
-      <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
-        {hobbies.map((hobby, i) => (
-          <div
-            key={i}
-            className="break-inside-avoid rounded-xl overflow-hidden border border-surface-border bg-surface-raised/40 hover:border-sage/30 hover:bg-surface-raised/60 transition-all duration-300 group"
-          >
-            <div className="overflow-hidden">
+      {/* Bio */}
+      <div className="text-parchment/80 text-base font-light leading-relaxed mb-10 max-w-2xl space-y-6">
+        <p>
+          Hi, I'm Zeyu Lai—though I usually go by Michael. I'm a first-year undergraduate at UC San Diego. I'm mostly just a normal human trying to cure a stammer and leave my hair alone, fueled by a steady stream of matcha and kept sane by two very good plushies.
+        </p>
+        
+        <p>
+          I have a habit of dragging chatbots into infinite, good-natured arguments until I truly understand the concept behind it.I'm also constantly trying to wrap my head around the latest shifts in generative models and robotic architectures. Rather than just reading the theory, my main goal is to get my hands as dirty as possible with actual hardware and code, building alongside and learning from the greatest minds I can find.
+        </p>
+
+        <p>
+          I also have what you might call "three-minute passions"—or, if we're being generous, extreme multitasking. My brain simply refuses to focus on just one thing at a time; for me to even feel like I'm actually working, I need to be juggling several tasks at once. I used to hate this about myself and fought it constantly, but I've slowly come to accept that I can't defy my own wiring. It's a little chaotic, but it turns out this is exactly how I operate best.
+        </p>
+      </div>
+
+      {/* ── Divider ─────────────────────────────────────────── */}
+      <div className="border-t border-surface-border/40 my-20" />
+
+
+      {/* Things I Love */}
+      <p className="text-xs font-medium tracking-widest text-ash uppercase mb-10">
+        Things I Love
+      </p>
+
+      {/* Photo strip */}
+      <div className="flex gap-3 mb-10 overflow-x-auto pb-1">
+        {photos.map((p, i) => (
+          <div key={i} className="shrink-0">
+            <div className="w-24 h-24 overflow-hidden rounded-sm">
               <img
-                src={hobby.imageSrc}
-                alt={hobby.title}
-                className="w-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-[1.02] transition-all duration-500"
+                src={p.src}
+                alt={p.label}
+                className="w-full h-full object-cover opacity-60 hover:opacity-80 transition-opacity duration-300"
               />
             </div>
-            <div className="p-4">
-              <h3 className="font-serif text-parchment font-semibold text-sm mb-1">
-                {hobby.title}
-              </h3>
-              <p className="text-ash text-xs leading-relaxed">{hobby.caption}</p>
-            </div>
+            <p className="text-ash text-xs mt-1.5">{p.label}</p>
           </div>
         ))}
       </div>
+
+      {/* ── Divider ─────────────────────────────────────────── */}
+      <div className="border-t border-surface-border/40 my-20" />
+
+      {/* ── Writing ─────────────────────────────────────────── */}
+      <p className="text-xs font-medium tracking-widest text-ash uppercase mb-10">
+        Writing
+      </p>
+
+      {/* Category filter */}
+      <div className="flex gap-7 mb-10">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setActive(cat)}
+            className={`flex items-center gap-2 text-sm pb-px transition-colors duration-200 ${
+              active === cat
+                ? "text-parchment border-b border-parchment/50"
+                : "text-ash hover:text-parchment"
+            }`}
+          >
+            {cat !== "All" && (
+              <Shape
+                type={categoryMeta[cat].shape}
+                color={categoryMeta[cat].color}
+              />
+            )}
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      {/* Post list */}
+      <div className="border-t border-surface-border/40">
+        {filtered.map((post, i) => (
+          <Link
+            key={i}
+            href={`/blog/${post.slug}`}
+            className="flex items-center gap-6 py-4 border-b border-surface-border/40 group"
+          >
+            <span className="w-20 shrink-0 text-ash text-sm">{post.date}</span>
+            <span className="flex-1 text-parchment text-sm group-hover:text-sage transition-colors duration-200">
+              {post.title}
+            </span>
+            <span className="flex items-center gap-1.5 text-ash text-xs shrink-0">
+              <Shape
+                type={categoryMeta[post.category].shape}
+                color={categoryMeta[post.category].color}
+              />
+              {post.category}
+            </span>
+          </Link>
+        ))}
+
+        {filtered.length === 0 && (
+          <p className="text-ash text-sm py-8">Nothing here yet.</p>
+        )}
+      </div>
+
     </section>
   );
 }

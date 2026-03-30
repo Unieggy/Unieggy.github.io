@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 const links = [
   { href: "/", label: "Home" },
   { href: "/projects", label: "Projects" },
-  { href: "/hobbies", label: "Hobbies" },
+  { href: "/hobbies", label: "About Me" },
 ];
 
 function ThemeToggle() {
