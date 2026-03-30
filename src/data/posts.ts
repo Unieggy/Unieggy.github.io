@@ -9,21 +9,18 @@ export type Post = {
 };
 
 export const posts: Post[] = [
-  /*
+  
   {
     slug: "poem1",
-    title: "Random Poem Wrote in High School",
+    title: "Random Poems",
     date: "Mar 2026",
     category: "Personal",
     content: `
-Write your post content here. You can use multiple paragraphs.
-
-Each blank line creates a new paragraph. Just type naturally.
-
-This is the third paragraph.
+    
+You are being trolled!
     `.trim(),
   },
-  */
+  
 ];
 
 export function getPost(slug: string): Post | undefined {
