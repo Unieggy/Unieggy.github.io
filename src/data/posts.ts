@@ -12,12 +12,12 @@ export const posts: Post[] = [
   
   {
     slug: "poem1",
-    title: "Random Poems",
-    date: "Mar 2026",
+    title: "Working on it",
+    date: "April 2026",
     category: "Personal",
     content: `
     
-You are being trolled!
+    I'm working on it, I swear,
     `.trim(),
   },
   
