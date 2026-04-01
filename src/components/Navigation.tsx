@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 const links = [
   { href: "/", label: "Home" },
   { href: "/projects", label: "Projects" },
-  { href: "/hobbies", label: "Hobbies" },
+  { href: "/hobbies", label: "About Me" },
 ];
 
 function ThemeToggle() {
@@ -50,7 +50,7 @@ export default function Navigation() {
         {/* Logo */}
         <Link
           href="/"
-          className="font-serif text-xl font-semibold text-parchment tracking-tight hover:text-sage transition-colors duration-200"
+          className="font-serif text-xl font-normal text-parchment tracking-tight hover:text-sage transition-colors duration-200"
         >
           Zeyu Lai
         </Link>

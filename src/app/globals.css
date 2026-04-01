@@ -11,7 +11,7 @@
   --color-parchment: #e0e5e2;
   --color-ash: #8a9a92;
   --font-sans: var(--font-inter);
-  --font-serif: var(--font-playfair);
+  --font-serif: var(--font-spectral);
 }
 
 /* ─── Dark mode (default / .dark class on <html>) ──────────────────────────── */
@@ -22,7 +22,7 @@ html.dark {
   --color-sage: #5c7365;
   --color-sage-deep: #3d5048;
   --color-sage-light: #7a9e8c;
-  --color-parchment: #e0e5e2;
+  --color-parchment: #e8f1ec;
   --color-ash: #8a9a92;
 }
 
@@ -34,7 +34,7 @@ html:not(.dark) {
   --color-sage: #3d5e51;
   --color-sage-deep: #4a6d60;
   --color-sage-light: #2c4039;
-  --color-parchment: #1c211e;
+  --color-parchment: #111211;
   --color-ash: #4a5750;
 }
 
