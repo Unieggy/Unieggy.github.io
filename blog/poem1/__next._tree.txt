@@ -1,6 +1,4 @@
-:HL["/_next/static/chunks/0.0fi0it2dnf..css","style"]
+:HL["/_next/static/chunks/0g0saypot517u.css","style"]
+:HL["/_next/static/media/2a65768255d6b625-s.p.14by5b4al-y~f.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/83afe278b6a6bb3c-s.p.0q-301v4kxxnr.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-:HL["/_next/static/media/98f992443ccb276f-s.p.0jd0f37ymqamw.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-:HL["/_next/static/media/9d71b78498c53c0d-s.p.17k2i9j4cifp0.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-:HL["/_next/static/media/f577e48814abc562-s.p.0zyvzvhw7v9n6.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"blog","param":null,"prefetchHints":0,"slots":{"children":{"name":"slug","param":{"type":"d","key":"poem1","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"wEzijWZufwJCgwVmrRnq6"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"blog","param":null,"prefetchHints":0,"slots":{"children":{"name":"slug","param":{"type":"d","key":"poem1","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"rVUxVYd68E8a9GRnm_h6w"}
