@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Spectral } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import FlowField from "@/components/FlowField";
@@ -11,10 +11,10 @@ const inter = Inter({
   weight: ["300", "400", "500", "600"],
 });
 
-const spectral = Spectral({
-  variable: "--font-spectral",
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
   subsets: ["latin"],
-  weight: ["300", "400", "600"],
+  weight: ["400", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -31,10 +31,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${spectral.variable} h-full`}
+      className={`${inter.variable} ${playfair.variable} h-full`}
       suppressHydrationWarning
     >
-  
       <body className="min-h-full bg-surface text-parchment font-sans antialiased">
         <ThemeProvider>
           <FlowField />

@@ -8,7 +8,6 @@ const GitHubIcon = () => (
 
 interface Project {
   title: string;
-  year?: string;
   description: string;
   stack: string[];
   githubUrl: string;
@@ -18,7 +17,6 @@ interface Project {
 
 export default function ProjectCard({
   title,
-  year,
   description,
   stack,
   githubUrl,
@@ -38,12 +36,9 @@ export default function ProjectCard({
 
       {/* Content */}
       <div className="flex flex-col gap-3 flex-1 min-w-0">
-        <div className="flex items-baseline gap-2">
-          <h3 className="font-serif text-parchment font-semibold text-lg leading-snug group-hover:text-sage transition-colors duration-200">
-            {title}
-          </h3>
-          {year && <span className="text-ash text-xs shrink-0">{year}</span>}
-        </div>
+        <h3 className="font-serif text-parchment font-semibold text-lg leading-snug group-hover:text-sage transition-colors duration-200">
+          {title}
+        </h3>
 
         <p className="text-ash text-sm leading-relaxed">{description}</p>
 

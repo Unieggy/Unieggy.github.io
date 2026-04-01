@@ -65,10 +65,10 @@ export default function FlowField() {
     const NOISE_SCALE    = 0.0012;  // frequency of the flow field
     const STEP_LEN       = 2;      // px per integration step
     const STEPS          = 780;    // how long each streamline grows
-    const LINE_W         = 0.27;   // hairline — weight comes from overlap
-    const LINE_ALPHA     = 0.09;   // very low; density built by many overlapping strands
+    const LINE_W         = 0.45;   // hairline — weight comes from overlap
+    const LINE_ALPHA     = 0.12;   // very low; density built by many overlapping strands
     const NUM_SEEDS      = 560;    // number of streamlines
-    const WARP_RADIUS    = 260;    // px — mouse influence radius
+    const WARP_RADIUS    = 290;    // px — mouse influence radius
     const WARP_STRENGTH  = 40;     // px — max displacement of noise sample point
 
     // ── Resize: regenerate fixed seed positions ─────────────────────────────
