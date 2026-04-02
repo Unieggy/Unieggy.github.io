@@ -5,4 +5,4 @@
 :HL["/_next/static/media/f577e48814abc562-s.p.0zyvzvhw7v9n6.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/selfie.jpg","image"]
 :HL["https://placehold.co/208x117/161c18/3d5048?text=ACE+2024","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}},"staleTime":300,"buildId":"ijC4gNY1FI5jI15QEZLr8"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}},"staleTime":300,"buildId":"dypzXCMIdeYSlwsZ_YyEZ"}
