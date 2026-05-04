@@ -2,6 +2,7 @@ import HeroSection from "@/components/HeroSection";
 import EducationTimeline from "@/components/EducationTimeline";
 import ExperienceTimeline from "@/components/ExperienceTimeline";
 import PublicationCard from "@/components/PublicationCard";
+import Squiggle from "@/components/Squiggle";
 
 const publications = [
   {
@@ -34,9 +35,10 @@ export default function HomePage() {
 
       {/* Publications */}
       <section className="py-12">
-        <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-parchment mb-8">
+        <h2 className="font-heading text-2xl font-normal text-parchment mb-2">
           Research &amp; Publications
         </h2>
+        <Squiggle width={220} />
 
         <div className="flex flex-col gap-4">
           {publications.map((pub, i) => (

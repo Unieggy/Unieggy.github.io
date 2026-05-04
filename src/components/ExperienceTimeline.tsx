@@ -1,3 +1,5 @@
+import Squiggle from "@/components/Squiggle";
+
 const experience = [
   {
     role: "Embodied AI Undergraduate Researcher",
@@ -22,9 +24,10 @@ const experience = [
 export default function ExperienceTimeline() {
   return (
     <section className="py-12">
-      <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-parchment mb-8">
+      <h2 className="font-heading text-2xl font-normal text-parchment mb-2">
         Experience
       </h2>
+      <Squiggle />
 
       <div className="relative">
         <div className="absolute left-0 top-2 bottom-2 w-px bg-surface-border" />

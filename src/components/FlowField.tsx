@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 // ── Permutation table (built once at module load) ──────────────────────────
 const PERM = (() => {
@@ -38,9 +39,12 @@ function noise(x: number, y: number): number {
 }
 
 export default function FlowField() {
+  const pathname = usePathname();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const isHome = pathname === "/";
 
   useEffect(() => {
+    if (!isHome) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d", { alpha: false })!;
@@ -175,7 +179,9 @@ export default function FlowField() {
       window.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseleave", onMouseLeave);
     };
-  }, []);
+  }, [isHome]);
+
+  if (!isHome) return null;
 
   return (
     <canvas

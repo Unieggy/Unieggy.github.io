@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Spectral } from "next/font/google";
+import { Inter, Lato, Spectral } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import FlowField from "@/components/FlowField";
@@ -9,6 +9,12 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
+});
+
+const lato = Lato({
+  variable: "--font-lato",
+  subsets: ["latin"],
+  weight: ["400", "700"],
 });
 
 const spectral = Spectral({
@@ -38,7 +44,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${spectral.variable} h-full`}
+      className={`${inter.variable} ${lato.variable} ${spectral.variable} h-full`}
       suppressHydrationWarning
     >
   

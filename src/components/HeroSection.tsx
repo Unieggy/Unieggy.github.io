@@ -68,9 +68,12 @@ export default function HeroSection() {
       {/* Bio */}
       <div className="flex flex-col items-center sm:items-start gap-4 text-center sm:text-left">
         <div>
-          <h1 className="font-serif text-4xl sm:text-5xl font-semibold text-parchment tracking-tight mb-3">
-            Zeyu (Michael) Lai
-          </h1>
+          <div className="flex items-baseline gap-3 mb-3 flex-wrap">
+            <h1 className="font-heading font-normal text-parchment tracking-tight" style={{ fontSize: "32px" }}>
+              Zeyu (Michael) Lai
+            </h1>
+            <span className="font-sans text-sm font-normal text-ash tracking-wide">/zé yǔ · lài/</span>
+          </div>
           <p className="text-ash text-base sm:text-lg leading-relaxed max-w-lg">
            Undergraduate Student interested in imitation learning, reinforcement learning, and generalist policy learning
           </p>

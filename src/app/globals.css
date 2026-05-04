@@ -12,6 +12,7 @@
   --color-ash: #8a9a92;
   --font-sans: var(--font-inter);
   --font-serif: var(--font-spectral);
+  --font-heading: var(--font-lato);
 }
 
 /* ─── Dark mode (default / .dark class on <html>) ──────────────────────────── */
@@ -54,6 +55,12 @@ body {
 ::selection {
   background-color: var(--color-sage-deep);
   color: var(--color-parchment);
+}
+
+/* ─── Squiggle animation ───────────────────────────────────────────────────── */
+@keyframes squiggle-flow {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-40px); }
 }
 
 /* ─── Scrollbar ────────────────────────────────────────────────────────────── */

@@ -1,3 +1,5 @@
+import Squiggle from "@/components/Squiggle";
+
 const education = [
   {
     degree: "B.S. in Electrical Engineering & Data Science",
@@ -9,9 +11,10 @@ const education = [
 export default function EducationTimeline() {
   return (
     <section className="py-12">
-      <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-parchment mb-8">
+      <h2 className="font-heading text-2xl font-normal text-parchment mb-2">
         Education
       </h2>
+      <Squiggle />
 
       <div className="relative">
         {/* Vertical line */}
