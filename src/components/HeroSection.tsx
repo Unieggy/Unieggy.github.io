@@ -72,7 +72,7 @@ export default function HeroSection() {
             <h1 className="font-heading font-normal text-parchment tracking-tight" style={{ fontSize: "32px" }}>
               Zeyu (Michael) Lai
             </h1>
-            <span className="font-sans text-sm font-normal text-ash tracking-wide">/zé yǔ · lài/</span>
+            <span className="font-sans text-sm font-normal text-ash tracking-wide">/ˈzɛ.juː · laɪ/</span>
           </div>
           <p className="text-ash text-base sm:text-lg leading-relaxed max-w-lg">
            Undergraduate Student interested in imitation learning, reinforcement learning, and generalist policy learning
