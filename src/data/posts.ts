@@ -9,18 +9,13 @@ export type Post = {
 };
 
 export const posts: Post[] = [
-  
   {
-    slug: "poem1",
-    title: "Working on it",
-    date: "April 2026",
-    category: "Personal",
-    content: `
-    
-    I'm working on it, I swear,
-    `.trim(),
+    slug: "seeing-math",
+    title: 'How "Seeing" Math Hacks Your Brain\'s Hardware',
+    date: "May 2026",
+    category: "Random Ideas",
+    content: "Full post available.",
   },
-  
 ];
 
 export function getPost(slug: string): Post | undefined {
