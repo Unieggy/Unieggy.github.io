@@ -13,4 +13,4 @@
 :HL["/vehicle.jpg","image"]
 :HL["/handtrack.jpg","image"]
 :HL["/monte-carlo-ising-9.png","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"projects","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"OCtcUTkXjzV9lHmAVrqko"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"projects","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"WcR5r4sKx6h1DqD0t3g0J"}
