@@ -296,7 +296,7 @@ export default function SeeingMathPage() {
       <p className="text-parchment/80 text-base font-light leading-relaxed mb-5">
         Memorized as a formula, the Jacobian is impenetrable. But geometrically, it is exactly
         the same thing as a linear map: it tells you how small changes in joint angles{" "}
-        <em>transform</em> into small changes in end-effector position. It&rsquo;s the local
+        <em>transform</em>  into small changes in end-effector position. It&rsquo;s the local
         linearization of the robot&rsquo;s forward kinematics — a matrix that warps the
         joint-space tangent into Cartesian-space motion. When the Jacobian becomes singular
         (determinant → 0), the robot hits a{" "}
