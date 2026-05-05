@@ -105,7 +105,7 @@ export default function SeeingMathPage() {
       </p>
 
       {/* TwoStreamBrain */}
-      <p className="text-xs tracking-widest uppercase text-ash mt-2 mb-1 text-center">
+      <p className="text-xs tracking-widest uppercase text-ash mt-2 mb-0 text-center">
         visualization
       </p>
       <TwoStreamBrain />
@@ -120,7 +120,7 @@ export default function SeeingMathPage() {
       </p>
 
       {/* GridPlaceCells */}
-      <p className="text-xs tracking-widest uppercase text-ash mt-2 mb-1 text-center">
+      <p className="text-xs tracking-widest uppercase text-ash mt-2 mb-0 text-center">
         visualization
       </p>
       <GridPlaceCells />
@@ -244,7 +244,7 @@ export default function SeeingMathPage() {
       </div>
 
       {/* EigenvalueViz */}
-      <p className="text-xs tracking-widest uppercase text-ash mt-2 mb-1 text-center">
+      <p className="text-xs tracking-widest uppercase text-ash mt-2 mb-0 text-center">
         visualization
       </p>
       <EigenvalueViz />

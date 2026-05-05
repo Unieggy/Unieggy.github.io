@@ -140,35 +140,29 @@ export default function EigenvalueViz() {
     ctx.stroke();
     ctx.restore();
 
-    // 6 sample vectors transforming with t
+    // 6 sample vectors (none are eigenvectors — all drawn gray)
     const sampleAngles = [0, 60, 120, 180, 240, 300].map((d) => (d * Math.PI) / 180);
-    // eigenvector directions
-    const ev1Angle = Math.PI / 4;  // [1,1]/√2 -> 45°
-    const ev2Angle = -Math.PI / 4; // [1,-1]/√2 -> -45°
-
+    const [ox, oy] = toCanvas(0, 0);
     sampleAngles.forEach((angle) => {
       const ux = Math.cos(angle);
       const uy = Math.sin(angle);
       const [ax, ay] = applyMatrix(tVal, ux, uy);
-      const [x1, y1] = toCanvas(0, 0);
       const [x2, y2] = toCanvas(ax, ay);
-
-      const isEv1 = Math.abs(angle - ev1Angle) < 0.01;
-      const isEv2 = Math.abs(angle - ev2Angle) < 0.01 || Math.abs(angle - (ev2Angle + Math.PI)) < 0.01;
-
-      if (isEv1) {
-        drawArrow(ctx, x1, y1, x2, y2, "#3b82f6", 2);
-      } else if (isEv2) {
-        drawArrow(ctx, x1, y1, x2, y2, "#5c7365", 2);
-      } else {
-        drawArrow(ctx, x1, y1, x2, y2, "rgba(220,220,220,0.45)", 1.5);
-      }
+      drawArrow(ctx, ox, oy, x2, y2, "rgba(220,220,220,0.35)", 1.5);
     });
 
-    // Eigenvector lines (always visible, full extent)
+    // Eigenvectors drawn explicitly
     const ev1 = 1 / Math.sqrt(2);
-    const ev1Scale = 3; // λ=3
-    const ev2Scale = 1; // λ=1
+    // λ=3: direction [1,1]/√2
+    const [bx, by] = applyMatrix(tVal, ev1, ev1);
+    const [bx2, by2] = toCanvas(bx, by);
+    drawArrow(ctx, ox, oy, bx2, by2, "#3b82f6", 2.5);
+    // λ=1: direction [1,-1]/√2
+    const [gx, gy] = applyMatrix(tVal, ev1, -ev1);
+    const [gx2, gy2] = toCanvas(gx, gy);
+    drawArrow(ctx, ox, oy, gx2, gy2, "#5c7365", 2.5);
+
+    // Eigenvector guide lines (always visible, full extent)
     const lineExtent = 3.2;
 
     // Eigenvector 1: [1,1]/√2, λ=3 — blue
@@ -185,7 +179,7 @@ export default function EigenvalueViz() {
     ctx.stroke();
     ctx.restore();
     // λ=3 label
-    const [labelX1, labelY1] = toCanvas(ev1Scale * ev1 + 0.15, ev1Scale * ev1 - 0.15);
+    const [labelX1, labelY1] = toCanvas(3 * ev1 + 0.15, 3 * ev1 - 0.15);
     ctx.fillStyle = "#3b82f6";
     ctx.font = "bold 11px sans-serif";
     ctx.textAlign = "left";
@@ -205,7 +199,7 @@ export default function EigenvalueViz() {
     ctx.stroke();
     ctx.restore();
     // λ=1 label
-    const [labelX2, labelY2] = toCanvas(ev2Scale * ev1 + 0.15, -(ev2Scale * ev1) - 0.25);
+    const [labelX2, labelY2] = toCanvas(1 * ev1 + 0.15, -(1 * ev1) - 0.25);
     ctx.fillStyle = "#5c7365";
     ctx.font = "bold 11px sans-serif";
     ctx.textAlign = "left";
