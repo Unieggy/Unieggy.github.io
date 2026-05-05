@@ -67,7 +67,7 @@ export default function SeeingMathPage() {
       <p className="text-parchment/80 text-base font-light leading-relaxed mb-5">
         That realization turned my senior summer into probably the most rewarding period of my
         life. I was reading a bunch of CS, math, and physics textbooks. I have to admit, the
-        beginning was brutal—a lot of these texts are obscure af. (Pro-tip: lean heavily on the AI
+        beginning was brutal. A lot of these texts are obscure af. (Pro-tip: lean heavily on the AI
         tools around you; they are absolute lifesavers).
       </p>
 
@@ -114,7 +114,7 @@ export default function SeeingMathPage() {
         When you learn math through rote memorization, you are putting 100% of the cognitive load
         on your working memory. You are treating your brain like a cheap flash drive. But when you
         map a concept geometrically, you engage in the so-called{" "}
-        <strong className="text-parchment font-medium">Hippocampal Formation</strong>—specifically
+        <strong className="text-parchment font-medium">Hippocampal Formation</strong>, specifically
         the <em>Grid Cells</em> and <em>Place Cells</em>. These neurons literally create a physical
         coordinate system in your mind.
       </p>
@@ -205,8 +205,8 @@ export default function SeeingMathPage() {
       <p className="text-parchment/80 text-base font-light leading-relaxed mb-5">
         Where <Math>R</Math> is retention, <Math>t</Math> is time, and{" "}
         <Math>S</Math> is the &ldquo;strength&rdquo; of the memory. Rote memorization keeps{" "}
-        <Math>S</Math> small — one rehearsal, one encoding, and it decays fast. But Hebbian
-        learning — neurons that fire together wire together — effectively increases{" "}
+        <Math>S</Math> small: one rehearsal, one encoding, and it decays fast. But Hebbian
+        learning (neurons that fire together wire together) effectively increases{" "}
         <Math>S</Math> by embedding the memory in a richer, multi-modal network. Geometric
         intuition is exactly that: a spatial scaffold that multiplies the number of neural
         pathways encoding the same concept.
@@ -227,7 +227,7 @@ export default function SeeingMathPage() {
       </p>
 
       <p className="text-parchment/80 text-base font-light leading-relaxed mb-5">
-        The geometric view is transformative. A matrix <em>is</em> a transformation of space —
+        The geometric view is transformative. A matrix <em>is</em> a transformation of space:
         it stretches, rotates, shears, and squishes. The determinant is the factor by which
         areas (or volumes) scale. A zero determinant means the transformation collapses
         space down into a lower dimension. This is not metaphor; it is the literal definition.
@@ -235,7 +235,7 @@ export default function SeeingMathPage() {
 
       <p className="text-parchment/80 text-base font-light leading-relaxed mb-5">
         Eigenvectors are the spine of this intuition. An eigenvector is a direction that the
-        matrix doesn&rsquo;t rotate — it only stretches. Formally:
+        matrix doesn&rsquo;t rotate; it only stretches. Formally:
       </p>
 
       {/* Eigenvalue equation */}
@@ -253,16 +253,18 @@ export default function SeeingMathPage() {
         In the visualization above, the matrix{" "}
         <Math>{String.raw`A = \begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix}`}</Math> has
         eigenvectors along the diagonals. Drag the slider and watch: every other vector bends
-        and rotates as the transformation unfolds, but the blue and green vectors — the
-        eigenvectors — simply stretch in place. The blue one scales by{" "}
+        and rotates as the transformation unfolds, but the blue and green eigenvectors
+        simply stretch in place. The blue one scales by{" "}
         <Math>{String.raw`\lambda = 3`}</Math>, the green one stays put at{" "}
         <Math>{String.raw`\lambda = 1`}</Math>.
       </p>
 
       <p className="text-parchment/80 text-base font-light leading-relaxed mb-5">
-        Once you see this, principal component analysis, Google&rsquo;s PageRank, quantum
-        mechanics — they all click at once. They are all, at their core, questions about which
-        directions a transformation preserves.
+        That geometric picture turns out to be surprisingly portable. Principal component
+        analysis, Google&rsquo;s PageRank, quantum mechanics — each is genuinely hard in its own
+        right. But once you understand eigenvectors, you start recognizing the same underlying
+        question buried inside all of them: which directions does this transformation leave
+        unchanged?
       </p>
 
       {/* ── Section: Surviving the Hard Stuff ── */}
@@ -289,7 +291,7 @@ export default function SeeingMathPage() {
       <p className="text-parchment/80 text-base font-light leading-relaxed mb-5">
         Where <Math>{String.raw`\dot{\mathbf{x}}`}</Math> is the end-effector velocity,{" "}
         <Math>{String.raw`\dot{\mathbf{q}}`}</Math> is the vector of joint velocities, and{" "}
-        <Math>{String.raw`J(\mathbf{q})`}</Math> is the Jacobian — a matrix that depends on
+        <Math>{String.raw`J(\mathbf{q})`}</Math> is the Jacobian, a matrix that depends on
         the current joint configuration.
       </p>
 
@@ -297,7 +299,7 @@ export default function SeeingMathPage() {
         Memorized as a formula, the Jacobian is impenetrable. But geometrically, it is exactly
         the same thing as a linear map: it tells you how small changes in joint angles{" "}
         <em>transform</em>{" "}into small changes in end-effector position. It&rsquo;s the local
-        linearization of the robot&rsquo;s forward kinematics — a matrix that warps the
+        linearization of the robot&rsquo;s forward kinematics, a matrix that warps the
         joint-space tangent into Cartesian-space motion. When the Jacobian becomes singular
         (determinant → 0), the robot hits a{" "}
         <strong className="text-parchment font-medium">kinematic singularity</strong>: certain
@@ -322,14 +324,14 @@ export default function SeeingMathPage() {
       <p className="text-parchment/80 text-base font-light leading-relaxed mb-5">
         None of this means you skip the algebra. You still have to do the problem sets, grind
         through the proofs, and pass the exams. The geometric intuition is not a shortcut around
-        the work — it&rsquo;s the foundation that makes the work{" "}
+        the work; it&rsquo;s the foundation that makes the work{" "}
         <em>stick</em>.
       </p>
 
       <p className="text-parchment/80 text-base font-light leading-relaxed mb-5">
         The authors I respected most in those textbooks were the ones who never let you forget
         the picture. They would derive the formula, then immediately show you what it looked
-        like — what shape it drew, what it preserved, what it destroyed. That alternation between
+        like: the shape it drew, what it preserved, what it destroyed. That alternation between
         symbol and shape is the whole game.
       </p>
 
