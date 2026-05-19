@@ -336,14 +336,11 @@ export default function SeeingMathPage() {
       </p>
 
       <p className="text-parchment/80 text-base font-light leading-relaxed mb-5">
-        Your brain is already a spatial computer. The grid cells are already running. The question
-        is whether you&rsquo;re giving them something to map, or just flooding your working
-        memory with symbols and hoping for the best.
+        Your brain is already a spatial computer. The question is whether you&rsquo;re giving 
+        them something to map, or just flooding your working memory with symbols and hoping for the best.
       </p>
 
-      <p className="text-parchment/80 text-base font-light leading-relaxed mb-5">
-        See the math. Let your brain&rsquo;s hardware do the rest.
-      </p>
+    
 
       <div className="border-t border-surface-border/40 mt-16 pt-8">
         <Link
