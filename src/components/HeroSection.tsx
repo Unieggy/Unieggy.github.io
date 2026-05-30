@@ -26,7 +26,7 @@ const CVIcon = () => (
 const socials = [
   {
     label: "CV",
-    href: "/Michaellaicv.pdf",
+    href: "/Michael_CV1.pdf",
     icon: CVIcon,
   },
   {
