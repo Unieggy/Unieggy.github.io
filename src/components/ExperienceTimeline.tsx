@@ -3,14 +3,14 @@ import Squiggle from "@/components/Squiggle";
 const experience = [
   {
     role: "Embodied AI Undergraduate Researcher",
-    org: "Su Hao's AI Lab — UC San Diego",
+    org: "Hao Su's AI Lab — UC San Diego",
     period: "Mar 2026 — Present",
     detail: "Building RL pipelines for robotic manipulation and sim-to-real transfer.",
   },
   {
     role: "Undergraduate Researcher",
     org: "MURO Lab — UC San Diego",
-    period: "Oct 2025 — Present",
+    period: "Oct 2025 — May 2026",
     detail: "Developing multi-robot map-merging infrastructure for autonomous TurtleBot4 fleets.",
   },
   {
