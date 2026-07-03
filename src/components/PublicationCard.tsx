@@ -7,6 +7,7 @@ interface Publication {
   abstract: string;
   link: string;
   imageSrc?: string;
+  readLabel?: string;
 }
 
 export default function PublicationCard({
@@ -16,6 +17,7 @@ export default function PublicationCard({
   abstract,
   link,
   imageSrc,
+  readLabel = "Read Paper",
 }: Publication) {
   return (
     <article className="flex flex-col sm:flex-row gap-5 p-5 rounded-xl border border-surface-border bg-surface-raised/40 hover:border-sage/30 hover:bg-surface-raised/60 transition-all duration-300 group">
@@ -48,7 +50,7 @@ export default function PublicationCard({
           rel="noopener noreferrer"
           className="mt-auto inline-flex items-center gap-1 text-sage text-xs font-medium hover:text-sage-light transition-colors duration-200 self-start"
         >
-          Read Paper
+          {readLabel}
           <ArrowUpRight size={13} strokeWidth={2} />
         </a>
       </div>

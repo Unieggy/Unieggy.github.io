@@ -4,6 +4,7 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 import FlowField from "@/components/FlowField";
 import ThemeProvider from "@/components/ThemeProvider";
+import LanguageProvider from "@/i18n/LanguageContext";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -50,9 +51,11 @@ export default function RootLayout({
   
       <body className="min-h-full bg-surface text-parchment font-sans antialiased">
         <ThemeProvider>
-          <FlowField />
-          <Navigation />
-          <main className="pt-16 min-h-screen">{children}</main>
+          <LanguageProvider>
+            <FlowField />
+            <Navigation />
+            <main className="pt-16 min-h-screen">{children}</main>
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

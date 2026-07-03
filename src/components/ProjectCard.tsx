@@ -14,6 +14,7 @@ interface Project {
   githubUrl: string;
   imageSrc?: string;
   demoUrl?: string;
+  githubLabel?: string;
 }
 
 export default function ProjectCard({
@@ -24,6 +25,7 @@ export default function ProjectCard({
   githubUrl,
   imageSrc,
   demoUrl,
+  githubLabel = "View on GitHub",
 }: Project) {
   return (
     <article className="flex flex-col sm:flex-row gap-6 p-6 rounded-xl border border-surface-border bg-surface-raised/40 hover:border-sage/30 hover:bg-surface-raised/60 transition-all duration-300 group">
@@ -68,7 +70,7 @@ export default function ProjectCard({
             className="inline-flex items-center gap-1.5 text-ash text-xs font-medium hover:text-sage transition-colors duration-200"
           >
             <GitHubIcon />
-            View on GitHub
+            {githubLabel}
           </a>
           {demoUrl && (
             <a

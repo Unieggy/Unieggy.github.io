@@ -6,12 +6,29 @@ import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
 import { Sun, Moon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useLang } from "@/i18n/LanguageContext";
 
-const links = [
-  { href: "/", label: "Home" },
-  { href: "/projects", label: "Projects" },
-  { href: "/hobbies", label: "About Me" },
-];
+function LanguageToggle() {
+  const { lang, toggle, t } = useLang();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) {
+    return <div className="w-9 h-9 rounded-lg border border-surface-border opacity-0" />;
+  }
+
+  return (
+    <button
+      onClick={toggle}
+      aria-label={t.langToggle.label}
+      title={t.langToggle.label}
+      className="w-9 h-9 flex items-center justify-center rounded-lg border border-surface-border text-ash text-xs font-medium hover:text-sage hover:border-sage/40 hover:bg-surface-raised transition-all duration-200"
+    >
+      {lang === "en" ? "中" : "EN"}
+    </button>
+  );
+}
 
 function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -43,6 +60,13 @@ function ThemeToggle() {
 
 export default function Navigation() {
   const pathname = usePathname();
+  const { t } = useLang();
+
+  const links = [
+    { href: "/", label: t.nav.home },
+    { href: "/projects", label: t.nav.projects },
+    { href: "/hobbies", label: t.nav.about },
+  ];
 
   return (
     <header className="fixed top-0 inset-x-0 z-50 border-b border-surface-border/60 bg-surface/80 backdrop-blur-md transition-colors duration-250">
@@ -52,7 +76,7 @@ export default function Navigation() {
           href="/"
           className="font-serif text-xl font-normal text-parchment tracking-tight hover:text-sage transition-colors duration-200"
         >
-          Zeyu Lai
+          {t.nav.logo}
         </Link>
 
         {/* Right side: nav links + theme toggle */}
@@ -86,6 +110,7 @@ export default function Navigation() {
           {/* Divider */}
           <div className="w-px h-5 bg-surface-border" />
 
+          <LanguageToggle />
           <ThemeToggle />
         </div>
       </nav>

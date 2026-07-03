@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { posts as allPosts } from "@/data/posts";
+import { useLang } from "@/i18n/LanguageContext";
 
 type Category = "All" | "Technical" | "Personal" | "Random Ideas";
 
@@ -42,6 +43,7 @@ const photos = [
 
 export default function HobbiesSection() {
   const [active, setActive] = useState<Category>("All");
+  const { t } = useLang();
 
   const filtered =
     active === "All" ? allPosts : allPosts.filter((p) => p.category === active);
@@ -51,21 +53,14 @@ export default function HobbiesSection() {
 
       {/* ── About ───────────────────────────────────────────── */}
       <p className="text-xs font-medium tracking-widest text-ash uppercase mb-7">
-        About
+        {t.hobbies.about}
       </p>
 
       {/* Bio */}
       <div className="text-parchment/80 text-base font-light leading-relaxed max-w-2xl space-y-6">
-        <p>
-          Hi, I'm Zeyu Lai—I go by Michael—a first-year undergraduate at UC San Diego, working on a stubborn stammer, leaving my hair alone, and surviving on matcha with help from two very reliable plushies.
-        </p>
-        <p>
-          I have a habit of dragging chatbots into infinite, good-natured arguments until I truly understand the concept behind it. I'm also constantly trying to wrap my head around the latest shifts in generative models and robotic architectures. Rather than just reading the theory, my main goal is to get my hands as dirty as possible with actual hardware and code, building alongside and learning from the greatest minds I can find.
-        </p>
-
-        <p>
-          I also have what you might call "spiky attention"—or, if we're being generous, breadth-first thinking. My brain simply refuses to focus on just one thing at a time; for me to even feel like I'm actually working, I need to be juggling several tasks at once. I used to hate this about myself and fought it constantly, but I've slowly come to accept that I can't defy my own wiring: a little chaotic, but it turns out this is exactly how I operate best.
-        </p>
+        {t.hobbies.bio.map((para, i) => (
+          <p key={i}>{para}</p>
+        ))}
       </div>
 
       {/* ── Divider ─────────────────────────────────────────── */}
@@ -74,23 +69,26 @@ export default function HobbiesSection() {
 
       {/* Things I Love */}
       <p className="text-xs font-medium tracking-widest text-ash uppercase mb-7">
-        Things I Love
+        {t.hobbies.thingsILove}
       </p>
 
       {/* Photo strip */}
       <div className="flex gap-3 overflow-x-auto pb-1">
-        {photos.map((p, i) => (
-          <div key={i} className="shrink-0">
-            <div className="w-24 h-24 overflow-hidden rounded-sm">
-              <img
-                src={p.src}
-                alt={p.label}
-                className="w-full h-full object-cover opacity-60 hover:opacity-80 transition-opacity duration-300"
-              />
+        {photos.map((p, i) => {
+          const caption = t.hobbies.photos[p.label as keyof typeof t.hobbies.photos];
+          return (
+            <div key={i} className="shrink-0">
+              <div className="w-24 h-24 overflow-hidden rounded-sm">
+                <img
+                  src={p.src}
+                  alt={caption}
+                  className="w-full h-full object-cover opacity-60 hover:opacity-80 transition-opacity duration-300"
+                />
+              </div>
+              <p className="text-ash text-xs mt-1.5">{caption}</p>
             </div>
-            <p className="text-ash text-xs mt-1.5">{p.label}</p>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* ── Divider ─────────────────────────────────────────── */}
@@ -98,7 +96,7 @@ export default function HobbiesSection() {
 
       {/* ── Writing ─────────────────────────────────────────── */}
       <p className="text-xs font-medium tracking-widest text-ash uppercase mb-7">
-        Writing
+        {t.hobbies.writing}
       </p>
 
       {/* Category filter */}
@@ -119,7 +117,7 @@ export default function HobbiesSection() {
                 color={categoryMeta[cat].color}
               />
             )}
-            {cat}
+            {t.hobbies.categories[cat]}
           </button>
         ))}
       </div>
@@ -141,13 +139,13 @@ export default function HobbiesSection() {
                 type={categoryMeta[post.category].shape}
                 color={categoryMeta[post.category].color}
               />
-              {post.category}
+              {t.hobbies.categories[post.category]}
             </span>
           </Link>
         ))}
 
         {filtered.length === 0 && (
-          <p className="text-ash text-sm py-8">Nothing here yet.</p>
+          <p className="text-ash text-sm py-8">{t.hobbies.empty}</p>
         )}
       </div>
 

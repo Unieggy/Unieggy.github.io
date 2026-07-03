@@ -1,18 +1,17 @@
-import Squiggle from "@/components/Squiggle";
+"use client";
 
-const education = [
-  {
-    degree: "B.S. in Electrical Engineering & Data Science",
-    institution: "UC San Diego",
-    period: "2025 — 2029",
-  }
-];
+import Squiggle from "@/components/Squiggle";
+import { useLang } from "@/i18n/LanguageContext";
+import { educationData } from "@/i18n/translations";
 
 export default function EducationTimeline() {
+  const { lang, t } = useLang();
+  const education = educationData;
+
   return (
     <section className="py-12">
       <h2 className="font-heading text-2xl font-normal text-parchment mb-2">
-        Education
+        {t.education.heading}
       </h2>
       <Squiggle />
 
@@ -28,18 +27,18 @@ export default function EducationTimeline() {
 
               <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-1.5">
                 <h3 className="text-parchment font-medium text-base">
-                  {item.degree}
+                  {item.degree[lang]}
                 </h3>
                 <span className="text-ash text-xs font-mono shrink-0">
                   {item.period}
                 </span>
               </div>
               <p className="text-sage text-sm font-medium mb-1.5">
-                {item.institution}
+                {item.institution[lang]}
               </p>
-              {"description" in item && (
+              {item.description && (
                 <p className="text-ash text-sm leading-relaxed">
-                  {String(item.description)}
+                  {item.description[lang]}
                 </p>
               )}
             </div>

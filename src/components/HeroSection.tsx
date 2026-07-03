@@ -1,4 +1,7 @@
+"use client";
+
 import {FileText, X, } from "lucide-react";
+import { useLang } from "@/i18n/LanguageContext";
 
 // Brand SVGs (lucide dropped these in newer versions)
 const GitHubIcon = () => (
@@ -52,6 +55,7 @@ const socials = [
 ];
 
 export default function HeroSection() {
+  const { t } = useLang();
   return (
     <section className="flex flex-col sm:flex-row items-center sm:items-start gap-8 sm:gap-12 py-16">
       {/* Profile Photo */}
@@ -70,30 +74,33 @@ export default function HeroSection() {
         <div>
           <div className="flex items-baseline gap-3 mb-3 flex-wrap">
             <h1 className="font-heading font-normal text-parchment tracking-tight" style={{ fontSize: "32px" }}>
-              Zeyu (Michael) Lai
+              {t.hero.name}
             </h1>
             <span className="font-sans text-sm font-normal text-ash tracking-wide">/ˈzɛ.juː · laɪ/</span>
           </div>
           <p className="text-ash text-base sm:text-lg leading-relaxed max-w-lg">
-           Undergraduate Student interested in imitation learning, reinforcement learning, and generalist policy learning
+           {t.hero.bio}
           </p>
         </div>
 
         {/* Social Links */}
         <div className="flex items-center gap-3 mt-1">
-          {socials.map(({ label, href, icon: Icon }) => (
+          {socials.map(({ label, href, icon: Icon }) => {
+            const displayLabel = label === "CV" ? t.hero.cv : label;
+            return (
             <a
               key={label}
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={label}
-              title={label}
+              aria-label={displayLabel}
+              title={displayLabel}
               className="w-9 h-9 flex items-center justify-center rounded-lg border border-surface-border text-ash hover:text-sage hover:border-sage/40 hover:bg-surface-raised transition-all duration-200"
             >
               <Icon />
             </a>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
