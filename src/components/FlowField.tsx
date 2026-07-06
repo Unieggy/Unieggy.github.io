@@ -55,25 +55,59 @@ export default function FlowField() {
     let H = 0;
     let seeds: { x: number; y: number }[] = [];
 
-    // Mouse: parked far off-screen until cursor enters the viewport
-    let mouseX = -9999;
-    let mouseY = -9999;
-    let smoothX = -9999;
-    let smoothY = -9999;
+    // Mouse state. `influence` is a 0→1 envelope so the warp fades in/out in
+    // place — the warp centre is NEVER flown across the screen (that was the
+    // source of the sudden sweeping "swing").
+    let mouseX = 0;
+    let mouseY = 0;
+    let smoothX = 0;
+    let smoothY = 0;
+    let hasMouse = false;
+    let influence = 0;        // eased presence, 0..1
+    let targetInfluence = 0;  // 1 while cursor is over the page, else 0
 
     // ── Parameters ─────────────────────────────────────────────────────────
     //
-    // NOISE_SCALE is the single most important dial.
-    // Very low (0.001) = enormous, gentle curves → lines naturally bundle
-    // into thick ribbons with wide negative space between them.
+    // NOISE_SCALE is the master dial: very low = enormous gentle curves that
+    // bundle into thick ribbons with wide negative space between them.
     const NOISE_SCALE    = 0.0012;  // frequency of the flow field
-    const STEP_LEN       = 2;      // px per integration step
-    const STEPS          = 780;    // how long each streamline grows
-    const LINE_W         = 0.27;   // hairline — weight comes from overlap
-    const LINE_ALPHA     = 0.09;   // very low; density built by many overlapping strands
-    const NUM_SEEDS      = 560;    // number of streamlines
-    const WARP_RADIUS    = 260;    // px — mouse influence radius
-    const WARP_STRENGTH  = 40;     // px — max displacement of noise sample point
+    const STEP_LEN       = 2;       // px per integration step
+    const STEPS          = 620;     // streamline length (~1240px) — long & smooth
+    const LINE_W         = 0.27;    // hairline — weight comes from overlap
+    const LINE_ALPHA     = 0.09;    // very low; density built by overlapping strands
+    const NUM_SEEDS      = 620;     // number of streamlines
+    const DRIFT          = 0.0001;  // field evolution — slow enough to avoid swings
+    const ANGLE_SPAN     = Math.PI * 1.8; // noise → heading range
+    const WARP_RADIUS    = 270;     // px — mouse influence radius
+    const WARP_STRENGTH  = 46;      // px — max displacement of the sample point
+
+    const r2 = WARP_RADIUS * WARP_RADIUS;
+
+    // Heading of the flow at a point, including the (enveloped) cursor warp.
+    // Sampling the same function at the midpoint gives RK2 integration, which
+    // keeps long streamlines stable frame-to-frame (no sudden bends).
+    const headingAt = (px: number, py: number): number => {
+      let sx = px * NOISE_SCALE + t;
+      let sy = py * NOISE_SCALE + t;
+
+      if (influence > 0.001) {
+        const dx = px - smoothX;
+        const dy = py - smoothY;
+        const dist2 = dx * dx + dy * dy;
+        if (dist2 < r2 && dist2 > 0.001) {
+          const dist = Math.sqrt(dist2);
+          // Push the SAMPLE POINT outward from the cursor — the flow parts
+          // smoothly around it rather than being yanked. Enveloped by
+          // `influence` so it eases in and out with no cross-screen sweep.
+          const falloff = (1 - dist2 / r2) ** 2 * influence;
+          const warp = falloff * WARP_STRENGTH * NOISE_SCALE;
+          sx += (dx / dist) * warp;
+          sy += (dy / dist) * warp;
+        }
+      }
+
+      return noise(sx, sy) * ANGLE_SPAN;
+    };
 
     // ── Resize: regenerate fixed seed positions ─────────────────────────────
     const resize = () => {
@@ -86,10 +120,7 @@ export default function FlowField() {
       canvas.style.height = `${H}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      // Seeds are fixed spatial starting points. Each frame the streamlines
-      // are re-integrated from these same origins, so the field "breathes"
-      // as t advances rather than having lines jump around.
-      // Spreading 20% beyond the canvas edges avoids visible seam artefacts.
+      // Fixed origins, spread 20% beyond the edges to hide seam artefacts.
       seeds = Array.from({ length: NUM_SEEDS }, () => ({
         x: (Math.random() * 1.4 - 0.2) * W,
         y: (Math.random() * 1.4 - 0.2) * H,
@@ -97,8 +128,14 @@ export default function FlowField() {
     };
 
     // ── Mouse handlers ──────────────────────────────────────────────────────
-    const onMouseMove = (e: MouseEvent) => { mouseX = e.clientX; mouseY = e.clientY; };
-    const onMouseLeave = () => { mouseX = -9999; mouseY = -9999; };
+    const onMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      // Snap on first contact so the warp doesn't sweep in from off-screen.
+      if (!hasMouse) { smoothX = mouseX; smoothY = mouseY; hasMouse = true; }
+      targetInfluence = 1;
+    };
+    const onMouseLeave = () => { targetInfluence = 0; }; // fade out in place
 
     window.addEventListener("resize", resize);
     window.addEventListener("mousemove", onMouseMove);
@@ -108,30 +145,26 @@ export default function FlowField() {
     // ── Frame loop ──────────────────────────────────────────────────────────
     function frame() {
       rafId = requestAnimationFrame(frame);
+      if (W === 0) return;
 
-      // Smooth mouse so the warp fades in and out organically
-      smoothX += (mouseX - smoothX) * 0.09;
-      smoothY += (mouseY - smoothY) * 0.09;
+      // Track the cursor and ease the presence envelope.
+      smoothX += (mouseX - smoothX) * 0.12;
+      smoothY += (mouseY - smoothY) * 0.12;
+      influence += (targetInfluence - influence) * 0.05;
 
       const isDark = document.documentElement.classList.contains("dark");
 
-      // Hard clear every frame — streamlines are permanent, not accumulated.
-      // This is the opposite of the fading-trail approach: each frame is a
-      // complete, clean redraw of all strands at the current t.
+      // Hard clear — streamlines are fully redrawn each frame, never accumulated.
       ctx.fillStyle = isDark ? "#121614" : "#f2f0eb";
       ctx.fillRect(0, 0, W, H);
 
-      // Hairline strokes in the site's sage palette, very low opacity.
-      // Visual density is emergent: dozens of strands converging in the
-      // noise "valleys" stack their alpha and form the bright ribbons.
       ctx.lineWidth   = LINE_W;
+      ctx.lineJoin    = "round";
       ctx.strokeStyle = isDark
         ? `rgba(192, 208, 200, ${LINE_ALPHA})`  // silver-sage on charcoal
         : `rgba(48, 65, 57, ${LINE_ALPHA})`;    // dark ink on warm off-white
 
       ctx.beginPath();
-
-      const r2 = WARP_RADIUS * WARP_RADIUS;
 
       for (const seed of seeds) {
         let cx = seed.x;
@@ -139,36 +172,21 @@ export default function FlowField() {
         ctx.moveTo(cx, cy);
 
         for (let i = 0; i < STEPS; i++) {
-          // Base noise sample coordinates, slowly drifting with t
-          let sx = cx * NOISE_SCALE + t;
-          let sy = cy * NOISE_SCALE + t;
-
-          // Mouse warp: push the noise sample point outward from the cursor.
-          // Displacing the *sample point* (not the angle directly) produces
-          // a smooth, organic parting of the flow field — strands appear to
-          // stream around an invisible obstacle rather than being yanked.
-          const dx    = cx - smoothX;
-          const dy    = cy - smoothY;
-          const dist2 = dx * dx + dy * dy;
-          if (dist2 < r2 && dist2 > 0.001) {
-            const dist      = Math.sqrt(dist2);
-            const influence = (1 - dist2 / r2) ** 2;          // smooth falloff
-            const warp      = (influence * WARP_STRENGTH) * NOISE_SCALE;
-            sx += (dx / dist) * warp;
-            sy += (dy / dist) * warp;
-          }
-
-          const angle = noise(sx, sy) * Math.PI * 1.8;
-          cx += Math.cos(angle) * STEP_LEN;
-          cy += Math.sin(angle) * STEP_LEN;
+          // RK2 (midpoint) integration — sample the heading, step half-way,
+          // re-sample, then take the full step along that corrected heading.
+          const a1 = headingAt(cx, cy);
+          const mx = cx + Math.cos(a1) * STEP_LEN * 0.5;
+          const my = cy + Math.sin(a1) * STEP_LEN * 0.5;
+          const a2 = headingAt(mx, my);
+          cx += Math.cos(a2) * STEP_LEN;
+          cy += Math.sin(a2) * STEP_LEN;
           ctx.lineTo(cx, cy);
         }
       }
 
       ctx.stroke();
 
-      // Very slow drift — the field shifts and breathes over tens of seconds
-      t += 0.00025;
+      t += DRIFT;
     }
 
     rafId = requestAnimationFrame(frame);
