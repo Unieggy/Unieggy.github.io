@@ -128,8 +128,8 @@ export const experienceData: ExperienceItem[] = [
     },
     period: "Mar 2026 — Present",
     detail: {
-      en: "Building RL pipelines for robotic manipulation and sim-to-real transfer.",
-      zh: "为机器人操作与仿真到现实（sim-to-real）迁移构建强化学习流程。",
+      en: "Developing dexterous teleoperation frameworks, sim-to-real pipelines, and predictive world models.",
+      zh: "开发灵巧遥操作框架，执行高保真的仿真到现实（sim-to-real）迁移，并构建预测性世界模型。",
     },
   },
   {
