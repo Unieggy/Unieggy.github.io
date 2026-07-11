@@ -27,7 +27,7 @@ const spectral = Spectral({
 export const metadata: Metadata = {
   title: "Zeyu (Michael) Lai",
   description:
-    "Undergraduate Student interested in imitation learning, reinforcement learning, and generalist policy learning.",
+    "Undergraduate Student interested in world models, reinforcement learning, and generalist policy learning.",
   icons: {
     icon: [
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },

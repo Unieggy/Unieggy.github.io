@@ -9,7 +9,7 @@ export const dict = {
     nav: { home: "Home", projects: "Projects", about: "About Me", logo: "Zeyu Lai" },
     hero: {
       name: "Zeyu (Michael) Lai",
-      bio: "Undergraduate Student interested in imitation learning, reinforcement learning, and generalist policy learning",
+      bio: "Undergraduate Student interested in world models, reinforcement learning, and generalist policy learning",
       cv: "CV",
     },
     education: { heading: "Education" },
@@ -52,7 +52,7 @@ export const dict = {
     nav: { home: "首页", projects: "项目", about: "关于我", logo: "赖泽宇" },
     hero: {
       name: "赖泽宇 (Michael)",
-      bio: "本科生，研究方向包括模仿学习、强化学习与通用策略学习",
+      bio: "本科生，研究方向包括世界模型、强化学习与通用策略学习",
       cv: "简历",
     },
     education: { heading: "教育经历" },
@@ -194,6 +194,50 @@ export interface ProjectItem {
 }
 
 export const projectsData: ProjectItem[] = [
+  {
+    title: {
+      en: "s-motf: Latent World-Action Model (L-WAM)",
+      zh: "s-motf：潜在世界-动作模型（L-WAM）",
+    },
+    year: "2026",
+    description: {
+      en: "Architected a 50 Hz proprioceptive quadruped controller (Unitree Go1, MuJoCo) around a Mixture-of-Transformers backbone with a 3-step rectified flow-matching action head and prior/posterior latent-plan alignment. Distilled three PPO specialists — locomotion, hind-leg balance, fall recovery — into a single command-conditioned policy retaining 83–96% of specialist return, where an equal-capacity MLP baseline collapsed on the multimodal skill (4.7× lower return, 4.1× shorter survival).",
+      zh: "围绕混合 Transformer（Mixture-of-Transformers）主干，构建了 50 Hz 的本体感知四足控制器（Unitree Go1、MuJoCo），配备三步整流流匹配（rectified flow-matching）动作头与先验/后验潜在规划对齐。将运动、后腿平衡与摔倒恢复三个 PPO 专家策略蒸馏为单一的指令条件化策略，保留了专家 83–96% 的回报；而同等容量的 MLP 基线在多模态技能上崩溃（回报低 4.7 倍，存活时间短 4.1 倍）。",
+    },
+    stack: [
+      "Python",
+      "PyTorch",
+      "MuJoCo",
+      "Unitree Go1",
+      "PPO",
+      "Flow Matching",
+      "Mixture-of-Transformers",
+      "World Models",
+    ],
+    githubUrl: "https://github.com/Unieggy/s-motf",
+    imageSrc: "/smotf.png",
+  },
+  {
+    title: {
+      en: "Baton: Multi-Agent Handoff & Orchestration Framework",
+      zh: "Baton：多智能体交接与编排框架",
+    },
+    year: "2026",
+    description: {
+      en: "Engineered a local control framework to hot-swap active CLI coding sessions (Claude Code ↔ Codex) mid-task. Captured terminal streams via node-pty/xterm.js and distilled unverified workspace states into provider-neutral handoff packets to bypass rate limits without task re-explanation.",
+      zh: "构建了一个本地控制框架，可在任务进行中热切换活跃的 CLI 编码会话（Claude Code ↔ Codex）。通过 node-pty/xterm.js 捕获终端流，并将未经验证的工作区状态提炼为与供应商无关的交接数据包，从而绕过速率限制且无需重新说明任务。",
+    },
+    stack: [
+      "TypeScript",
+      "Node.js",
+      "node-pty",
+      "xterm.js",
+      "Multi-Agent Systems",
+      "CLI Tooling",
+    ],
+    githubUrl: "https://github.com/Unieggy/baton",
+    imageSrc: "/interface.png",
+  },
   {
     title: { en: "LeRobot SO-101 VLA Policy", zh: "LeRobot SO-101 VLA 策略" },
     year: "2026",
