@@ -214,7 +214,7 @@ export const projectsData: ProjectItem[] = [
       "Mixture-of-Transformers",
       "World Models",
     ],
-    githubUrl: "https://github.com/Unieggy/s-motf",
+    githubUrl: "https://github.com/Unieggy/S-MOTF",
     imageSrc: "/smotf.png",
   },
   {
@@ -235,7 +235,7 @@ export const projectsData: ProjectItem[] = [
       "Multi-Agent Systems",
       "CLI Tooling",
     ],
-    githubUrl: "https://github.com/Unieggy/baton",
+    githubUrl: "https://github.com/Unieggy/Baton",
     imageSrc: "/interface.png",
   },
   {
