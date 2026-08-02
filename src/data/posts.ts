@@ -10,6 +10,13 @@ export type Post = {
 
 export const posts: Post[] = [
   {
+    slug: "flash-attention",
+    title: "Flash Attention, One Page at a Time",
+    date: "Aug 2026",
+    category: "Technical",
+    content: "Full post available.",
+  },
+  {
     slug: "seeing-math",
     title: 'How "Seeing" Math Hacks Your Brain\'s Hardware',
     date: "May 2026",
