@@ -154,7 +154,7 @@ export default function FlashAttentionPage() {
       <div className="mb-12">
         <p className="text-ash text-sm mb-3">August 2026 · Technical</p>
         <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-parchment leading-snug">
-          Flash Attention, One Page at a Time
+          Handwritten Notes on Flash Attention
         </h1>
       </div>
 
