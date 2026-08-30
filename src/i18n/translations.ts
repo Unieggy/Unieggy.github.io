@@ -121,6 +121,18 @@ export interface ExperienceItem {
 
 export const experienceData: ExperienceItem[] = [
   {
+    role: { en: "Robotics Infrastructure Engineer Intern", zh: "机器人基础设施工程实习生" },
+    org: {
+      en: "CoCo Matrix — Shanghai",
+      zh: "CoCo Matrix · 上海",
+    },
+    period: "Jul 2026 — Sep 2026",
+    detail: {
+      en: "Built unified multi-robot infrastructure for the GR3, dual-PiPER-X, and Astribot S1 platforms, wiring policy serving, perception, teleoperation, and safety into modular Dora dataflow graphs. Implemented latency-aware asynchronous inference with action-chunk scheduling that overlaps inference with execution while holding control-rate stability. Led on-robot deployment for WRC, plus DAgger/HITL intervention tooling and fail-closed model onboarding workflows.",
+      zh: "为 GR3、双臂 PiPER-X 与 Astribot S1 平台构建统一的多机器人基础设施，通过模块化 Dora 数据流图整合策略服务、感知、遥操作与安全控制。实现了延迟感知的异步推理与动作分块调度，在保持控制频率稳定的同时让推理与执行相互重叠。主导了 WRC 的整机部署，并搭建 DAgger/人在回路的干预工具链与故障安全的模型上线流程。",
+    },
+  },
+  {
     role: { en: "Embodied AI Undergraduate Researcher", zh: "具身智能本科研究员" },
     org: {
       en: "Hao Su's AI Lab — UC San Diego",
