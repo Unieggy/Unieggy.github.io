@@ -9,7 +9,7 @@ export const dict = {
     nav: { home: "Home", projects: "Projects", about: "About Me", logo: "Zeyu Lai" },
     hero: {
       name: "Zeyu (Michael) Lai",
-      bio: "Undergraduate Student interested in world models, reinforcement learning, and generalist policy learning",
+      bio: "Undergraduate Student interested in world action models, reinforcement learning, and in-context learning",
       cv: "CV",
     },
     education: { heading: "Education" },
@@ -52,7 +52,7 @@ export const dict = {
     nav: { home: "首页", projects: "项目", about: "关于我", logo: "赖泽宇" },
     hero: {
       name: "赖泽宇 (Michael)",
-      bio: "本科生，研究方向包括世界模型、强化学习与通用策略学习",
+      bio: "本科生，研究方向包括世界动作模型、强化学习与上下文学习",
       cv: "简历",
     },
     education: { heading: "教育经历" },
