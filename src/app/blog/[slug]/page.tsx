@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 
 export function generateStaticParams() {
-  return posts.map((p) => ({ slug: p.slug }));
+  return posts.filter((p) => !p.href).map((p) => ({ slug: p.slug }));
 }
 
 export default async function BlogPostPage({

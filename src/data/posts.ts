@@ -6,9 +6,19 @@ export type Post = {
   date: string;
   category: PostCategory;
   content: string;
+  /** Set for posts that live as a standalone page in /public rather than a Next route. */
+  href?: string;
 };
 
 export const posts: Post[] = [
+  {
+    slug: "field-guide",
+    title: "A Field Guide to Learned-Policy Robot Infrastructure",
+    date: "Sep 2026",
+    category: "Technical",
+    content: "Full post available.",
+    href: "/field-guide/",
+  },
   {
     slug: "flash-attention",
     title: "Handwritten Notes on Flash Attention",

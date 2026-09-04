@@ -124,25 +124,37 @@ export default function HobbiesSection() {
 
       {/* Post list */}
       <div className="border-t border-surface-border/40">
-        {filtered.map((post, i) => (
-          <Link
-            key={i}
-            href={`/blog/${post.slug}`}
-            className="flex items-center gap-6 py-4 border-b border-surface-border/40 group"
-          >
-            <span className="w-20 shrink-0 text-ash text-sm">{post.date}</span>
-            <span className="flex-1 text-parchment text-sm group-hover:text-sage transition-colors duration-200">
-              {post.title}
-            </span>
-            <span className="flex items-center gap-1.5 text-ash text-xs shrink-0">
-              <Shape
-                type={categoryMeta[post.category].shape}
-                color={categoryMeta[post.category].color}
-              />
-              {t.hobbies.categories[post.category]}
-            </span>
-          </Link>
-        ))}
+        {filtered.map((post, i) => {
+          const rowClass =
+            "flex items-center gap-6 py-4 border-b border-surface-border/40 group";
+          const row = (
+            <>
+              <span className="w-20 shrink-0 text-ash text-sm">{post.date}</span>
+              <span className="flex-1 text-parchment text-sm group-hover:text-sage transition-colors duration-200">
+                {post.title}
+              </span>
+              <span className="flex items-center gap-1.5 text-ash text-xs shrink-0">
+                <Shape
+                  type={categoryMeta[post.category].shape}
+                  color={categoryMeta[post.category].color}
+                />
+                {t.hobbies.categories[post.category]}
+              </span>
+            </>
+          );
+
+          // Standalone pages in /public sit outside the Next router, so they
+          // need a plain anchor rather than a client-side <Link>.
+          return post.href ? (
+            <a key={i} href={post.href} className={rowClass}>
+              {row}
+            </a>
+          ) : (
+            <Link key={i} href={`/blog/${post.slug}`} className={rowClass}>
+              {row}
+            </Link>
+          );
+        })}
 
         {filtered.length === 0 && (
           <p className="text-ash text-sm py-8">{t.hobbies.empty}</p>

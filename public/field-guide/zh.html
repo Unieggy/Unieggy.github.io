@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="学习型机器人策略部署实战指南：闭环控制、训练契约、异步推理、动作平滑、干预数据和模型接入。">
+<title>学习型机器人策略部署：基础设施实战指南</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#fdfdfc;--ink:#292a2d;--body:#414348;--muted:#73777e;--faint:#9ca2aa;
+  --line:#e5e4df;--line2:#cfcec8;--soft:#f5f5f2;--blue:#2764c5;--teal:#14745f;
+  --amber:#9a640b;--red:#ad413b;--violet:#694bb8;
+  --sans:Inter,"Inter var",ui-sans-serif,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PingFang SC","HarmonyOS Sans SC","Source Han Sans SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif;
+  --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--body);font:17px/1.68 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-underline-offset:3px}
+p{margin:0 0 18px}
+strong,b{color:var(--ink);font-weight:650}
+code{padding:1px 5px;border-radius:3px;background:#f0f2f6;color:#24466f;font:.86em/1.5 var(--mono)}
+.page{display:grid;grid-template-columns:180px minmax(0,860px);gap:62px;width:min(1120px,calc(100% - 48px));margin:0 auto}
+.side{position:sticky;top:0;align-self:start;height:100vh;padding:54px 18px 28px 0;overflow:auto}
+.side-title{margin:0 0 13px;color:var(--ink);font-size:13px;font-weight:700}
+.side nav a{display:block;padding:6px 0;color:var(--muted);font-size:12.5px;line-height:1.35;text-decoration:none}
+.side nav a:hover{color:var(--ink)}
+.side nav a.active{margin-left:-12px;padding-left:10px;border-left:2px solid var(--blue);color:var(--blue);font-weight:650}
+main{min-width:0;padding:54px 0 120px}
+.col{max-width:720px;margin-right:auto;margin-left:auto}
+.wide{max-width:860px;margin-right:auto;margin-left:auto}
+.article-head{max-width:720px;margin-bottom:76px}
+h1{margin:0;color:var(--ink);font-size:clamp(2.25rem,4vw,3rem);font-weight:730;line-height:1.1;letter-spacing:-.035em;text-align:center}
+.meta{margin:20px 0 46px;color:var(--muted);font-size:14px;line-height:1.6;text-align:center}
+.meta a{text-decoration:none}
+.intro p{margin-bottom:19px}
+section{margin-top:82px;scroll-margin-top:28px}
+h2{margin:0 0 22px;color:#303136;font-size:clamp(1.65rem,2.8vw,2rem);font-weight:590;line-height:1.22;letter-spacing:-.025em}
+h3{margin:38px 0 13px;color:var(--ink);font-size:1.08rem;line-height:1.35}
+.lede{color:var(--muted);font-size:1.03rem}
+ul,ol{margin:0 0 20px;padding-left:24px}
+li{margin-bottom:10px;padding-left:3px}
+li::marker{color:var(--faint)}
+.note{margin:30px 0;padding-left:20px;border-left:2px solid var(--line2)}
+.note.blue{border-left-color:var(--blue)}
+.note.amber{border-left-color:var(--amber)}
+.note .label{display:block;margin-bottom:7px;color:var(--faint);font-size:10px;font-weight:750;letter-spacing:.13em;text-transform:uppercase}
+.note.blue .label{color:var(--blue)}
+.note.amber .label{color:var(--amber)}
+pre{margin:26px 0;padding:19px 21px;overflow:auto;border-radius:5px;background:var(--soft);color:#34383e;font:12.5px/1.75 var(--mono)}
+.diagram{margin:42px 0;padding:24px 0;border-top:1px solid var(--line2);border-bottom:1px solid var(--line2)}
+figcaption{margin-bottom:20px;color:var(--muted);font-size:12.8px;line-height:1.55}
+figcaption b{display:block;margin-bottom:3px}
+.canvas{width:100%;overflow-x:auto;overscroll-behavior-inline:contain}
+.canvas svg{display:block;width:100%;min-width:760px;height:auto}
+svg text{font-family:var(--sans)}
+.controls{display:flex;flex-wrap:wrap;gap:14px 24px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--line);font-size:11px}
+.controls label{display:grid;gap:6px;color:var(--muted)}
+.controls .cap{display:flex;justify-content:space-between;gap:12px;font-weight:650;letter-spacing:.045em;text-transform:uppercase}
+.controls .cap b{color:var(--ink);font:650 11.5px var(--mono);letter-spacing:0}
+.controls input[type=range]{width:126px;accent-color:var(--blue)}
+.controls select{padding:3px 6px;border:1px solid var(--line2);border-radius:4px;background:#fff;color:var(--ink);font:11.5px var(--sans)}
+.controls button{align-self:end}
+.legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:7px 24px;margin-top:18px;padding-top:15px;border-top:1px solid var(--line);font-size:11.7px;line-height:1.45}
+.legend span{display:block;padding-left:19px;text-indent:-19px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;margin-right:9px;border:1px solid rgba(0,0,0,.2);border-radius:2px;transform:translateY(1px);text-indent:0}
+.curve-legend span{padding-left:38px;text-indent:-38px}
+.curve-legend i{width:28px;height:0;margin-right:10px;border:0;border-top:3px solid;border-radius:0;transform:translateY(-2px)}
+.curve-legend i.linear{border-top-color:#d55e00;border-top-style:dashed}
+.curve-legend i.cubic{border-top-color:#0072b2;border-top-style:dotted}
+.curve-legend i.quintic{border-top-color:#009e73;border-top-style:solid}
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px 22px;margin-top:19px;padding-top:15px;border-top:1px solid var(--line)}
+.readout>div{color:var(--muted);font-size:10.9px;line-height:1.4}
+.readout b{display:block;margin-bottom:3px;color:var(--ink);font:650 1.15rem/1.1 var(--mono)}
+.formula{margin:28px 0;padding:19px 21px;border-top:1px solid var(--line2);border-bottom:1px solid var(--line2);font-family:var(--mono)}
+.formula>b{display:block;margin-bottom:10px;font-size:1.05rem}
+.formula span{display:block;color:var(--muted);font:12px/1.65 var(--sans)}
+.curve-formula{margin:0 0 20px}
+.curve-formula>b{font-size:.94rem;line-height:1.55}
+.pipeline-order{margin:27px 0;color:var(--muted);font:650 12px/1.65 var(--mono)}
+button{padding:7px 10px;border:1px solid var(--line2);border-radius:5px;background:#fff;color:var(--ink);font:650 11px var(--sans);cursor:pointer}
+button:hover{border-color:var(--blue);color:var(--blue)}
+.table{margin:28px 0;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13.5px;line-height:1.55}
+th,td{padding:12px 18px 12px 0;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--faint);font-size:10px;letter-spacing:.11em;text-transform:uppercase}
+td:first-child{color:var(--ink);font-weight:620}
+.chain{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));margin:28px 0;border-top:1px solid var(--line2);border-bottom:1px solid var(--line2)}
+.chain.loop{grid-template-columns:repeat(5,minmax(0,1fr))}
+.chain div{position:relative;padding:16px 18px 16px 0;color:var(--muted);font-size:11.5px;line-height:1.45}
+.chain div+div{padding-left:22px}
+.chain div+div::before{content:"→";position:absolute;left:2px;color:var(--faint);font-family:var(--mono)}
+.chain b{display:block;margin-bottom:3px;font-size:12px}
+.end{margin-top:88px;padding-top:28px;border-top:1px solid var(--line2)}
+.end h2{font-size:1.35rem}
+.lang{position:fixed;z-index:60;top:14px;right:18px;padding:7px 11px;border:1px solid var(--line2);border-radius:5px;background:rgba(255,255,255,.96);color:var(--ink);font:650 11px/1.35 var(--sans);text-decoration:none;box-shadow:0 3px 14px rgba(0,0,0,.06)}
+.lang:hover{border-color:var(--blue);color:var(--blue)}
+.menu{display:none;position:fixed;z-index:60;top:12px;left:14px}
+.scrim{display:none;position:fixed;z-index:38;inset:0;background:rgba(20,21,24,.28)}
+@media(max-width:820px){
+  .page{display:block;width:min(100% - 34px,860px)}
+  main{padding-top:78px}
+  .side{position:fixed;z-index:45;top:0;left:0;width:min(310px,86vw);height:100vh;padding:28px 22px;background:#fff;border-right:1px solid var(--line2);box-shadow:10px 0 36px rgba(0,0,0,.12);transform:translateX(-105%);transition:transform .2s ease}
+  body.nav-open .side{transform:translateX(0)}
+  body.nav-open .scrim{display:block}
+  .menu{display:block}
+  h1{font-size:2.25rem}
+  .chain{grid-template-columns:1fr 1fr}
+  .chain.loop{grid-template-columns:1fr 1fr}
+  .chain div:nth-child(odd){padding-left:0}
+  .chain div:nth-child(odd)::before{display:none}
+}
+@media(max-width:520px){.chain,.chain.loop{grid-template-columns:1fr}.chain div{padding-left:0!important}.chain div::before{display:none!important}}
+</style>
+</head>
+<body>
+<button class="menu" type="button" aria-controls="side" aria-expanded="false">目录</button>
+<a class="lang" href="index.html" hreflang="en" lang="en">English</a>
+<div class="scrim" aria-hidden="true"></div>
+
+<div class="page">
+<aside class="side" id="side">
+  <p class="side-title">目录</p>
+  <nav aria-label="文章目录">
+    <a href="#loop">控制闭环</a>
+    <a href="#contract">训练契约</a>
+    <a href="#baseline">朴素基线</a>
+    <a href="#architecture">运行时边界</a>
+    <a href="#rtc">异步推理</a>
+    <a href="#motion">动作处理</a>
+    <a href="#initial">从数据集采样</a>
+    <a href="#dagger">DAgger 数据</a>
+    <a href="#onboarding">模型接入</a>
+    <a href="#debugging">故障定位</a>
+  </nav>
+</aside>
+
+<main>
+<header class="article-head col" id="top">
+  <h1>学习型机器人策略部署：基础设施实战指南</h1>
+  <p class="meta">一份面向现场的实用指南<br>2026 年 9 月</p>
+  <div class="intro">
+    <p>如果你在读这篇文章，大概率有人把机器人工程里“模型检查点（checkpoint）能加载”到“几公斤硬件真的把事情做对”之间的那段活交给了你。祝你好运。这一层不性感，但它决定了策略能不能复现、能不能排错，以及是否已经可靠到值得上机测试。</p>
+    <p>这份指南从控制闭环出发，由内向外解释整条部署链路。它假设你有一些具身智能基础，但不要求你熟悉某个特定模型、机器人、中间件或实验室代码库。</p>
+    <p>如果你对时序、动作语义、数据记录、安全归属或机器人集成做了重大改动，请在同一笔变更里更新这份指南。下一位工程师应该继承你的推理过程，而不是在终端历史里做考古。</p>
+  </div>
+</header>
+
+<section id="loop">
+  <div class="col">
+    <h2>先看控制闭环，再看检查点</h2>
+    <p>学习型机器人策略是闭环里的一个组件。运行时读取一次观测——通常是相机图像加上机器人状态——把它映射成模型要求的输入格式，让策略给出一个或多个未来动作，执行其中一部分预测，然后再观测。</p>
+    <p>很多现代策略预测的是一个<em>动作块（action chunk）</em>：一小段未来的关节、位姿或夹爪指令。控制回路以固定频率逐条执行。部署基础设施负责神经网络之外的一切：同步、队列、动作选择、安全检查、硬件下发，以及能够回答“机器人究竟执行了什么”的记录。</p>
+  </div>
+  <div class="chain loop wide" aria-label="闭环策略执行流程">
+    <div><b>观测</b>图像 + 机器人状态</div>
+    <div><b>适配</b>键名、单位、顺序</div>
+    <div><b>推理</b>预测一个动作块</div>
+    <div><b>执行</b>消费有效动作</div>
+    <div><b>闭环</b>读取新鲜反馈</div>
+  </div>
+</section>
+
+<section id="contract">
+  <div class="col">
+    <h2>部署的本质是重建训练时的契约</h2>
+    <p>模型是在一组特定假设下学出来的。两个策略可能都接收三张图像和一个状态向量，却在相机角色、RGB 还是 BGR、字段顺序、单位、提示词措辞、时间戳、动作是绝对还是相对这些问题上完全不同。输出形状正确、而且没有 NaN 或无穷值，只能证明这条代码路径跑通了，别的什么都证明不了。</p>
+    <p>把这些假设写成一份机器可读的运行时契约（runtime contract）。它应该声明观测键名和形状、单位、相机角色、控制频率、动作预测长度和语义、任务词表、预处理方式以及归一化参数。数据集和训练变换通常是这份契约最可靠的证据来源。</p>
+    <div class="note blue">
+      <span class="label">工作准则</span>
+      <p>当文档、运行时默认值和录制数据互相矛盾时，先检查成功的训练片段和确切的变换代码，再动运行时。</p>
+    </div>
+  </div>
+</section>
+
+<section id="baseline">
+  <div class="col">
+    <h2>先让朴素策略跑通，再让它变顺滑</h2>
+    <p>第一步是证明最短路径可行：一次新鲜观测进入适配器，服务返回有限的动作，动作含义正确，一条受监督的指令到达预期的执行器。方向正确但动作抖动的基线是有用的。相机接错了、或者指令发到了错误的关节上，就算动作再顺滑也没用。</p>
+    <p>不要一上来就搞异步调度、滤波器、样条、自动重试或放宽限位。每加一个机制都会改变证据。等未经修改的策略路径跑通之后，再一个一个加。</p>
+    <ol>
+      <li>确认相机身份、颜色、方向、分辨率和帧率。</li>
+      <li>对照一次物理运动，确认状态顺序和单位。</li>
+      <li>确认动作顺序、单位，以及绝对/增量语义。</li>
+      <li>测量原始动作幅度和推理延迟。</li>
+      <li>做一次有人监督、范围受限的小规模真机验证。</li>
+    </ol>
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="col">
+    <h2>把可替换的计算和硬件控制权分开</h2>
+    <p>适配器把机器人观测转换成策略要求的输入格式。这样一来，策略服务可以替换、重启，甚至迁移到另一台机器，而不需要改动机器人驱动。模型输出仍然只是候选动作：路由器在模型、专家和 HOLD 指令之间做选择；最后一道安全边界校验所选动作；整个系统只能有一个进程持有硬件 SDK 并发送命令。</p>
+    <p>这种拆分让每类故障都有明确归属：格式错误查适配器，模型延迟查服务边界，动作仲裁查路由器，设备状态查硬件控制进程。</p>
+  </div>
+  <figure class="diagram wide">
+    <figcaption><b>一条观测路径，一条动作来源链路，一个硬件写入者</b>WebSocket、共享内存或其他方式都能传递消息。真正重要的是两件事：在哪一层检查消息含义，从哪一层开始只允许一个进程写入硬件。</figcaption>
+    <div class="canvas">
+      <svg viewBox="0 0 900 330" role="img" aria-label="通用真机部署架构图">
+        <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8b9097"/></marker></defs>
+        <g fill="none" stroke="#8b9097" stroke-width="1.5" marker-end="url(#arrow)">
+          <path d="M150 78H262"/><path d="M392 78H504"/><path d="M634 78H748"/>
+          <path d="M806 113V166H707V205"/><path d="M642 240H535"/><path d="M405 240H298"/><path d="M168 240H135"/>
+          <path d="M85 205V158H92V113" stroke-dasharray="5 5"/>
+        </g>
+        <g fill="#fff" stroke="#d5d4cf">
+          <rect x="35" y="43" width="115" height="70" rx="5"/><rect x="262" y="43" width="130" height="70" rx="5"/>
+          <rect x="504" y="43" width="130" height="70" rx="5"/><rect x="748" y="43" width="117" height="70" rx="5"/>
+          <rect x="642" y="205" width="130" height="70" rx="5"/><rect x="405" y="205" width="130" height="70" rx="5"/>
+          <rect x="168" y="205" width="130" height="70" rx="5"/><rect x="35" y="205" width="100" height="70" rx="5"/>
+        </g>
+        <g text-anchor="middle" fill="#292a2d" font-size="13" font-weight="650">
+          <text x="92" y="73">传感器</text><text x="327" y="73">适配器</text><text x="569" y="73">策略服务</text><text x="806" y="73">动作块</text>
+          <text x="707" y="235">路由器</text><text x="470" y="235">安全检查</text><text x="233" y="235">唯一写入者</text><text x="85" y="235">机器人</text>
+        </g>
+        <g text-anchor="middle" fill="#777c83" font-size="10.5">
+          <text x="92" y="91">图像 + 状态</text><text x="327" y="91">契约映射</text><text x="569" y="91">可替换计算</text><text x="806" y="91">定时队列</text>
+          <text x="707" y="253">模型 / 专家 / 保持</text><text x="470" y="253">新鲜度 + 限位</text><text x="233" y="253">SDK 下发</text><text x="85" y="253">反馈</text>
+        </g>
+      </svg>
+    </div>
+  </figure>
+</section>
+
+<section id="rtc">
+  <div class="col">
+    <h2>异步推理首先是时序问题，其次才是融合问题</h2>
+    <p>同步执行时，机器人可能把当前动作块耗尽后停下来，等下一个动作块生成。异步推理通过提前请求下一个动作块、让控制从现有队列继续运行来避免这种停顿。</p>
+    <p>模型可能一次预测 <code>H</code> 行，控制端却只把前 <code>E ≤ H</code> 行放进可执行队列。请求时机和队列余量必须按 <code>E</code> 计算，而不是按完整预测长度 <code>H</code> 计算：没有真正进入执行队列的尾部动作，不能算作延迟余量。</p>
+    <p>但回复基于更早的观测。如果推理花了几个控制周期，回复最前面的几行动作对应的时间已经过去。运行时需要在提交请求时记录执行计数器，统计请求在途期间消耗了多少行动作，再加上观测本身的年龄，最后从回复前面删掉这段已经失效的预测。</p>
+    <div class="formula">
+      <b>对齐偏移 c = 请求在途期间消耗的行数 + ceil(观测年龄 × 控制频率)</b>
+      <span>只有 <code>c &lt; T</code> 才接收回复，其中 <code>T</code> 是模型返回的预测长度。实际安装 <code>c … T−1</code>；如果所有行都已过期，就丢掉整份回复并立刻重新请求。</span>
+    </div>
+    <p>何时提前请求也应该由测量决定。把最近端到端延迟的高分位数换算成控制步数，再加一小段调度余量，在队列至少还剩这么多可执行动作时发出下一次请求。模型、加速器、图像传输、编译器或网络发生变化后，都要重新测量。</p>
+    <p><b>Preserve 和 transition 不是延迟估计。</b>Preserve 表示新回复到达后，仍有意保留几行有效的旧计划；transition 表示随后用多少行融合新旧目标。在 no-blend 模式下，系统仍然会提前推理并丢弃过期动作，只是不再平均两条未来轨迹，而是直接切换。</p>
+    <div class="formula">
+      <b>uᵢ = (i + 1)/(K + 1), &nbsp; wᵢ = 3uᵢ² − 2uᵢ³, &nbsp; aᵢ = (1 − wᵢ)aᵢ<sup>旧</sup> + wᵢaᵢ<sup>新</sup></b>
+      <span>一种常见做法是：先完成时间对齐，再用这条 smoothstep 曲线融合 <code>K</code> 行。前面的 <code>P</code> 行 preserve 区间完全沿用旧计划；进入 transition 后，权重才从旧计划单调过渡到新计划。曲线怎么选属于控制策略，不能代替真实延迟测量。</span>
+    </div>
+  </div>
+  <figure class="diagram wide" id="rtc-demo">
+    <figcaption><b>一次完整的异步动作块交接</b>调整执行前缀、实测延迟和融合策略。每个格子代表一个控制步，颜色表示该时间位置最终由哪份计划负责。默认数值只用于讲解，不是部署建议。</figcaption>
+    <div class="controls">
+      <label><span class="cap">模式</span><select id="rtcMode"><option value="align">不融合</option><option value="blend" selected>融合</option></select></label>
+      <label><span class="cap">执行前缀 E <b id="vH">16</b></span><input id="rH" type="range" min="8" max="32" step="4" value="16"></label>
+      <label><span class="cap">控制频率 Hz <b id="vF">30</b></span><input id="rF" type="range" min="10" max="60" step="5" value="30"></label>
+      <label><span class="cap">实测延迟 ms <b id="vL">73</b></span><input id="rL" type="range" min="20" max="240" step="1" value="73"></label>
+      <label><span class="cap">Preserve <b id="vP">0</b></span><input id="rP" type="range" min="0" max="8" value="0"></label>
+      <label><span class="cap">Transition <b id="vT">4</b></span><input id="rT" type="range" min="0" max="8" value="4"></label>
+    </div>
+    <div class="canvas"><svg id="rtcSvg" viewBox="0 0 900 270" role="img" aria-label="经过时间对齐与接缝融合的交互示意图"></svg></div>
+    <div class="legend" id="rtcLegend"></div>
+    <div class="readout" id="rtcOut"></div>
+  </figure>
+  <div class="col note amber">
+    <span class="label">三件独立的事</span>
+    <p>提前请求避免算力等待造成停顿；时间对齐删除已经过期的预测；接缝融合只负责减小两条有效未来轨迹之间的跳变。还没对齐就开始融合，等于把属于不同时间的动作平均在一起，也会把真正的时序问题藏起来。</p>
+  </div>
+</section>
+
+<section id="motion">
+  <div class="col">
+    <h2>先看抖动发生在哪里，再决定用什么平滑方法</h2>
+    <p>“机器人很抖”是一个观察，不是一个诊断。把原始指令流和反馈流画出来。判断不连续是发生在动作块内部、只发生在动作块边界，还是因为请求的运动超出了控制器能跟踪的范围。然后拿同样的统计量和演示数据做对比。</p>
+    <div class="table">
+      <table>
+        <thead><tr><th>观察到的现象</th><th>合适的工具</th><th>主要风险</th></tr></thead>
+        <tbody>
+          <tr><td>只有新动作块到达时才跳变</td><td>先做时间对齐，再加短接缝融合</td><td>融合过度会让每次重规划都变得迟钝。</td></tr>
+          <tr><td>有效动作块内部的高频噪声</td><td>因果低通滤波器</td><td>滤波太多会引入滞后，可能导致无法按时到达目标。</td></tr>
+          <tr><td>稀疏路点配固定遍历时间</td><td>样条或时间参数化插值</td><td>插值可能过冲，也不适合快速重规划的指令流。</td></tr>
+          <tr><td>物理上不可能的步长或速度</td><td>显式速率/速度限制加遥测</td><td>频繁截断会掩盖契约或策略本身的问题。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>低通滤波处理动作块内部的高频噪声</h3>
+    <div class="formula">
+      <b>yₜ = yₜ₋₁ + α(xₜ − yₜ₋₁), &nbsp; 0 &lt; α ≤ 1</b>
+      <span><code>xₜ</code> 是当前经过协调的目标，<code>yₜ</code> 是继续下发的指令。α 越小，高频变化压得越多，但相位滞后也越大。</span>
+    </div>
+    <p>普通的动作块切换不能重置滤波器，否则刚想消掉的接缝又会回来。episode 开始、人工接管、HOLD 或反馈中断之后，则应该用最新实测状态重新初始化。只过滤能容忍滞后的字段；夹爪开合通常应绕过低通，否则可能错过抓取时机。</p>
+    <p>固定目标不会永远被“削小”：连续更新会逐渐收敛到它。真正的问题是动作块有限，而且目标一直在变化；滤波过强时，控制指令可能始终落后于策略。α 不该靠肉眼选，而应测量指令与反馈之间的滞后。</p>
+    <h3>样条插值解决的是另一类问题</h3>
+    <p>当控制器拿到的是稀疏路点，而且移动时间明确时，可以使用三次、五次或最小加加速度（minimum-jerk）插值，例如准备位姿、回零动作，或者不同数据集起始位姿之间的过渡。样条会在已知端点之间生成稠密的位置和速度轨迹。它通常不适合快速重规划的模型输出，因为上一条曲线还没走完，新动作块就已经换了终点。</p>
+  </div>
+  <figure class="diagram wide" id="curve-demo">
+    <figcaption><b>固定时长的路点插值</b>选择一条曲线，重播归一化时间 <code>u=t/τ</code>。三个图分别显示位置、速度和加速度，解释为什么看起来相近的位置曲线，会在端点产生完全不同的运动状态。图中每条曲线都是一个时间缩放段；多路点样条需要串联多个曲线段，并让所需的边界导数连续。</figcaption>
+    <div class="controls">
+      <label><span class="cap">突出显示</span><select id="curveMode"><option value="compare" selected>全部对比</option><option value="linear">线性</option><option value="cubic">三次曲线</option><option value="quintic">五次最小加加速度</option></select></label>
+      <button id="curveReplay" type="button">重播时间指针</button>
+    </div>
+    <div class="formula curve-formula">
+      <b>q(t)=q₀+Δq·s(u), &nbsp; q̇(t)=Δq/τ·s′(u), &nbsp; q̈(t)=Δq/τ²·s″(u)</b>
+      <span id="curveEquation">五次曲线：s(u)=10u³−15u⁴+6u⁵</span>
+    </div>
+    <div class="canvas"><svg id="curveSvg" viewBox="0 0 900 375" role="img" aria-label="线性、三次和五次路点插值的动态对比"></svg></div>
+    <div class="legend curve-legend" id="curveLegend">
+      <span><i class="linear"></i>线性：只保证位置连续</span>
+      <span><i class="cubic"></i>三次：端点速度为零</span>
+      <span><i class="quintic"></i>五次：端点速度和加速度都为零</span>
+    </div>
+    <div class="readout" id="curveOut"></div>
+  </figure>
+  <div class="col note blue">
+    <span class="label">同一条多项式，不是同一种操作</span>
+    <p>路点样条用 <code>s(u)</code> 在两个固定端点之间生成一条轨迹；RTC 接缝融合可以用同一条曲线作为权重，在两份已经完成时间对齐的计划之间过渡；低通滤波则是递归计算，并不承诺何时抵达目标。公式外形相似，不代表三者可以互换。</p>
+  </div>
+  <div class="col">
+    <p>速度、加速度和单步变化限制仍然是最终安全边界，不是平滑器。如果它们频繁裁剪动作，就应该记录裁剪量并修正上游的动作尺度、频率或契约，而不是把长期被裁剪的轨迹当成正常运行。</p>
+    <p class="pipeline-order">经过时间对齐 → 可选接缝融合 → 因果低通 → 速率/安全检查 → 唯一硬件写入者</p>
+  </div>
+</section>
+
+<section id="initial">
+  <div class="col">
+    <h2>从数据集里采样部署条件</h2>
+    <p>第一次观测已经在影响整段执行。一个在人看来对称或方便的位姿，可能偏离训练时见过的起始状态。相机安装、图像频率、任务措辞、夹爪范围和动作节奏也是一样：它们都属于模型学到的输入分布，不是部署现场可以随意调整的布景。</p>
+    <h3>选择完整记录下来的状态</h3>
+    <p>从成功训练 episode 构建起始状态库。候选帧应位于 episode 早期、持续运动开始之前；排除任务已经推进后的停顿和终止状态；然后对完整状态向量聚类，选取数据里真实存在的代表点（medoid）。不要分别计算每个关节的均值或中位数再拼成一个姿态——每个坐标都可能很常见，但它们的组合可能从未出现在任何示范里。</p>
+    <p>每个起始状态都应保留来源 episode、帧时间戳、完整状态、单位、相机快照、任务标签和可达性检查。用单独受约束的运动过程抵达它。如果某个采样状态无法安全到达，应修正过渡流程或补采覆盖，而不是凭感觉发明一个模型没见过的起点。</p>
+    <h3>用数据确定动作应有多大</h3>
+    <p>在增加滤波器或修改速率限制之前，先从训练 episode 计算每个关节的单步变化、速度、加速度和夹爪运动分布。用同一套统计量、在同一控制频率下比较原始策略输出和人工纠正。动作明显小于训练分布时，机器人会显得胆怯；明显大于训练分布时，大部分 rollout 都会撞在安全限制上。</p>
+    <div class="note blue"><span class="label">覆盖范围的局限</span><p>代表性采样只能从已有覆盖里选，它造不出演示数据里从未出现过的起始状态。</p></div>
+  </div>
+</section>
+
+<section id="dagger">
+  <div class="col">
+    <h2>DAgger 应该修正策略，而不是改变任务</h2>
+    <p>在基于干预的 DAgger 里，策略会访问由它自己的错误产生的状态，人类在需要时接管，这些修正成为新的训练数据。重点是把有用的标签加到部署策略真正失败的地方——而不是造出第二个互不兼容的控制域。</p>
+    <p>修正数据只有在时序和动作含义与原始训练契约一致时才有用。更慢的遥操作、不同的控制频率，或者更小的指令增量，即使每一行都合法，也可能让微调后的策略动作偏小、反应迟疑。训练之前，应对比专家数据和原数据在单步变化量、速度、夹爪行程、指令节奏和观测延迟上的分布。</p>
+    <p>接管发生时，应把专家设备和机器人当下的实测构型对齐，再从这个参考点传递相对运动。直接发送专家设备毫不相干的绝对位姿会造成跳变；未经数据对比就修改专家设备的增益或速度，则会改变下一轮训练标签的分布。</p>
+    <h3>先记录动作来源，再派生训练视图</h3>
+    <p>保留完整且不可变的原始 episode，并在每个控制步记录模型提议、对齐后的专家提议、选中来源、安全处理后的命令、实际执行动作、控制模式和接管事件。训练时就可以只选专家窗口、加入模型失败前的上下文，或者构建混合视图，而不必猜测当时发生了什么。</p>
+    <p>条件允许时，用下发链路分配的控制步 ID 关联各条数据流。最近时间戳关联可能跨过接管边界，也可能把有效性信号贴到错误动作上。动作来源缺失或互相冲突的区间应该隔离，不能猜成有效标签。</p>
+  </div>
+  <div class="chain wide" aria-label="DAgger 动作来源链路">
+    <div><b>模型提议</b>策略想要什么</div>
+    <div><b>专家提议</b>操作员想要什么</div>
+    <div><b>路由器决策</b>模型 / 专家 / 保持</div>
+    <div><b>安全输出</b>被接受的指令</div>
+    <div><b>实际执行</b>硬件收到了什么</div>
+    <div><b>训练视图</b>可复现的投影</div>
+  </div>
+  <div class="col note amber"><span class="label">存储方式也是数据契约</span><p>把原始 RGB 数组直接存进列式文件，会让一个不大的数据集变得巨大。数值状态、动作、标签和帧索引存 Parquet；相机流编码成 H.264/HEVC 视频，并保留帧 → 时间戳 → 控制步的映射。</p></div>
+</section>
+
+<section id="onboarding">
+  <div class="col">
+    <h2>描述一次部署，而不是硬编码一次部署</h2>
+    <p>模型包包含权重，以及正确解释这些权重所需的配套文件。部署描述文件（deployment descriptor）是一份很小的配置：它把不可变的模型包绑定到运行时契约，说明由哪个服务加载、由哪张运行图接入控制链路、使用哪套相机配置，以及上线前必须通过哪些检查。启动器只读取描述文件，不应该为每个 checkpoint 再增加一条专属分支。</p>
+<pre>schema: deployment/v1
+name: example-policy
+
+bundle:
+  path: models/&lt;family&gt;/&lt;version&gt;
+  required: [checkpoint, contract.json]
+  verifier: verify_bundle.py
+
+policy:
+  frequency_hz: 30
+  action_horizon: 32
+  execute_prefix: 16
+
+observation:
+  camera_profile: camera-1280x720-30.yml
+
+runtime:
+  server: managed
+  graph: dual-arm-policy.yml
+
+qualification:
+  tests: [contract, adapter, service, no_write_launch]</pre>
+    <p>对于已经支持的后端，接入新模型就变成了“填写配置、产出验证证据”，而不是再写一个 <code>if model == ...</code> 分支。同一份描述文件驱动下载校验、运行时准备、部署前验证、启动和回滚。</p>
+    <h3>校验发布的是什么，到达的又是什么</h3>
+    <ul>
+      <li><b>发布方清单：</b>随包发布的文件列表、大小和哈希。</li>
+      <li><b>本地清单：</b>下载器生成的结构化回执，包含对象路径、大小、来源元数据和计算出的哈希。</li>
+      <li><b>本地哈希：</b>重新计算的内容指纹，通常也写成一个扁平的 <code>SHA256SUMS</code> 文件。</li>
+    </ul>
+    <p>加载模型之前，三者交叉核对。下载完整也可能是错误的 checkpoint；目录名正确也可能里面有一个损坏的文件。</p>
+  </div>
+</section>
+
+<section id="debugging">
+  <div class="col">
+    <h2>找到最先出错的那一层</h2>
+    <p>不要从最终的视觉症状开始查。给一次观测和一个动作加上追踪标识，跟着它们穿过系统，找到第一个值、时间戳或归属不再满足契约的边界。</p>
+    <ol>
+      <li>模型实际收到的是什么观测？</li>
+      <li>它返回的原始动作块是什么？</li>
+      <li>时序和运动处理之后产出了什么？</li>
+      <li>路由器和最终安全边界接受了什么？</li>
+      <li>硬件收到了什么，又上报了什么？</li>
+    </ol>
+    <p>大多数部署争论之所以发生，是因为排查从“模型应该看到什么”直接跳到了“机器人看起来做了什么”。</p>
+    <div class="note blue"><span class="label">反复出现的答案</span><p>当系统变得神秘时，回到数据集和训练变换。它们通常比再打一个运行时补丁更快地解决相机角色、单位、动作尺度、节奏、起始位姿和任务语言的问题。</p></div>
+  </div>
+</section>
+
+<footer class="end col">
+  <h2>让这份指南活下去</h2>
+  <p>架构变了，这份文档就应该跟着变。记录原因、实测到的故障、新的契约，以及修复有效的证据。一份实战指南只有在下一个工程师还能信任它的时候才有用。</p>
+  <p>想进一步比较不同的异步动作块策略，可以阅读 <a href="https://www.motubrain.com/zh/research/beyond-stalls-deploying-world-action-models/">Motubrain 的部署笔记</a>和配套的 <a href="https://arxiv.org/abs/2608.01880">技术报告</a>。</p>
+</footer>
+</main>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var menu=document.querySelector(".menu"),scrim=document.querySelector(".scrim"),links=[].slice.call(document.querySelectorAll(".side nav a"));
+  function setNav(open){document.body.classList.toggle("nav-open",open);if(menu)menu.setAttribute("aria-expanded",open?"true":"false")}
+  if(menu)menu.addEventListener("click",function(){setNav(!document.body.classList.contains("nav-open"))});
+  if(scrim)scrim.addEventListener("click",function(){setNav(false)});links.forEach(function(a){a.addEventListener("click",function(){setNav(false)})});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")setNav(false)});
+  if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es){var v=es.filter(function(e){return e.isIntersecting}).sort(function(a,b){return b.intersectionRatio-a.intersectionRatio});if(!v.length)return;links.forEach(function(a){a.classList.toggle("active",a.getAttribute("href")==="#"+v[0].target.id)})},{rootMargin:"-18% 0px -65% 0px",threshold:[0,.1,.35]});document.querySelectorAll("main section[id]").forEach(function(n){io.observe(n)})}
+
+  var NS="http://www.w3.org/2000/svg",svg=document.getElementById("rtcSvg");
+  if(!svg)return;
+  function el(name,attrs,copy){var n=document.createElementNS(NS,name);Object.keys(attrs).forEach(function(k){n.setAttribute(k,attrs[k])});if(copy!=null)n.textContent=copy;return n}
+  var C={done:"#ecece8",flight:"#cfe0f7",queued:"#fff",drop:"#f4d9d7",keep:"#f5e2bb",mix:"#ddd4f6",fresh:"#d2eadf"};
+  var S={done:"#b4b7b0",flight:"#2764c5",queued:"#cac9c3",drop:"#ad413b",keep:"#9a640b",mix:"#694bb8",fresh:"#14745f"};
+  [[C.done,S.done,"请求发出前已经执行的旧计划"],[C.flight,S.flight,"推理在途期间消耗的旧计划"],[C.queued,S.queued,"回复到达时仍在队列中的旧计划"],[C.drop,S.drop,"因过期而丢弃的新回复行"],[C.keep,S.keep,"有意保留的有效旧计划"],[C.mix,S.mix,"对齐后融合的新旧目标"],[C.fresh,S.fresh,"只使用新计划"]].forEach(function(row){var n=document.createElement("span");n.innerHTML='<i style="background:'+row[0]+';border-color:'+row[1]+'"></i>'+row[2];document.getElementById("rtcLegend").appendChild(n)});
+  var ids=["rH","rF","rL","rP","rT"],caps=["vH","vF","vL","vP","vT"],mode=document.getElementById("rtcMode"),readout=document.getElementById("rtcOut");
+  function cell(value,label,sub){return "<div><b>"+value+"</b>"+label+"<br>"+sub+"</div>"}
+  function drawRtc(){
+    var E=+document.getElementById("rH").value,f=+document.getElementById("rF").value,lat=+document.getElementById("rL").value,P=+document.getElementById("rP").value,T=+document.getElementById("rT").value,blend=mode.value==="blend";
+    ids.forEach(function(id,i){document.getElementById(caps[i]).textContent=document.getElementById(id).value});
+    var stepMs=1000/f,latSteps=Math.max(0,Math.ceil(lat/stepMs)),trigger=Math.min(E-1,latSteps+1+(blend?P+T:0)),before=Math.max(0,E-trigger),offset=Math.min(latSteps,E-1),accept=before+offset;
+    var preserved=blend?Math.min(P,Math.max(0,E-accept),Math.max(0,E-offset-1)):0;
+    var transition=blend?Math.min(T,Math.max(0,E-accept-preserved),Math.max(0,E-offset-preserved-1)):0;
+    while(svg.firstChild)svg.removeChild(svg.firstChild);
+    var L=106,R=900,total=before+E,cw=(R-L)/total,ch=22,yOld=48,yNew=136;
+    [[yOld,"旧计划","当前正在执行"],[yNew,"替换计划","按经过时间平移后"]].forEach(function(row){svg.appendChild(el("text",{x:0,y:row[0]-8,"font-size":10.5,"font-weight":700,fill:"#292a2d"},row[1]));svg.appendChild(el("text",{x:0,y:row[0]+9,"font-size":9.5,fill:"#9ca2aa"},row[2]))});
+    var i,x,fill,stroke;
+    for(i=0;i<E;i++){x=L+i*cw;if(i<before){fill=C.done;stroke=S.done}else if(i<accept){fill=C.flight;stroke=S.flight}else{fill=C.queued;stroke=S.queued}svg.appendChild(el("rect",{x:x+.6,y:yOld,width:Math.max(1,cw-1.2),height:ch,fill:fill,stroke:stroke,"stroke-width":.9,rx:1.5}))}
+    for(i=0;i<E;i++){x=L+(before+i)*cw;var rel=i-offset;if(rel<0){fill=C.drop;stroke=S.drop}else if(rel<preserved){fill=C.keep;stroke=S.keep}else if(rel<preserved+transition){fill=C.mix;stroke=S.mix}else{fill=C.fresh;stroke=S.fresh}svg.appendChild(el("rect",{x:x+.6,y:yNew,width:Math.max(1,cw-1.2),height:ch,fill:fill,stroke:stroke,"stroke-width":.9,rx:1.5}))}
+    function bracket(from,count,color,label,y){if(count<=0)return;var x0=L+(before+from)*cw+.6,x1=L+(before+from+count)*cw-.6;svg.appendChild(el("path",{d:"M"+x0+" "+(y+4)+"L"+x0+" "+y+"L"+x1+" "+y+"L"+x1+" "+(y+4),fill:"none",stroke:color,"stroke-width":1}));svg.appendChild(el("text",{x:(x0+x1)/2,y:y+15,"font-size":9,"font-weight":600,"text-anchor":"middle",fill:color},label))}
+    bracket(0,offset,S.drop,"丢弃 "+offset,yNew+ch+6);bracket(offset,preserved,S.keep,"保留 "+preserved,yNew+ch+6);bracket(offset+preserved,transition,S.mix,"融合 "+transition,yNew+ch+6);bracket(offset+preserved+transition,E-offset-preserved-transition,S.fresh,"仅新计划",yNew+ch+6);
+    function marker(col,label,sub,color,left){var mx=L+col*cw,anchor=left&&mx>230?"end":"start",dx=anchor==="end"?-7:7;svg.appendChild(el("line",{x1:mx,y1:yOld-27,x2:mx,y2:yNew+ch+3,stroke:color,"stroke-width":1,"stroke-dasharray":"3 3"}));svg.appendChild(el("circle",{cx:mx,cy:yOld-27,r:3,fill:color}));svg.appendChild(el("text",{x:mx+dx,y:yOld-31,"font-size":10,"font-weight":700,fill:color,"text-anchor":anchor},label));svg.appendChild(el("text",{x:mx+dx,y:yOld-19,"font-size":9,fill:"#9ca2aa","text-anchor":anchor},sub))}
+    marker(before,"发出请求",trigger+" 行仍在队列",S.flight,true);marker(accept,"接收回复",offset+" 行已经过期",S.fresh,false);
+    var axis=yNew+ch+43;svg.appendChild(el("line",{x1:L,y1:axis,x2:R,y2:axis,stroke:"#cfcec8"}));for(i=0;i<=total;i+=Math.max(2,Math.round(total/9))){x=L+i*cw;svg.appendChild(el("line",{x1:x,y1:axis,x2:x,y2:axis+4,stroke:"#cfcec8"}));svg.appendChild(el("text",{x:x,y:axis+16,"font-size":9,fill:"#9ca2aa","text-anchor":"middle"},"t+"+i))}svg.appendChild(el("text",{x:L,y:axis+33,"font-size":9,fill:"#9ca2aa"},"每格 = 一个控制步 = "+stepMs.toFixed(1)+" ms"));
+    var firstNew=before+offset+preserved+transition;
+    readout.innerHTML=cell(latSteps,"延迟步数","ceil("+lat+" / "+stepMs.toFixed(1)+" ms)")+cell(trigger,"请求深度",blend?"延迟 + 余量 + preserve + transition":"延迟 + 余量")+cell(offset,"对齐偏移","从新回复前端丢弃的行数")+cell("t+"+firstNew,"第一行纯新动作",preserved+" 行保留，"+transition+" 行融合")+cell((E*stepMs/1000).toFixed(2)+" s","执行窗口",E+" 行，"+f+" Hz")+(trigger>=E-1?cell("!","预留已饱和","时序预留占满执行前缀"):"");
+  }
+  ids.forEach(function(id){document.getElementById(id).addEventListener("input",drawRtc)});mode.addEventListener("change",drawRtc);drawRtc();
+
+  var curveSvg=document.getElementById("curveSvg"),curveMode=document.getElementById("curveMode"),curveReplay=document.getElementById("curveReplay"),curveEquation=document.getElementById("curveEquation"),curveOut=document.getElementById("curveOut"),curveFigure=document.getElementById("curve-demo");
+  if(curveSvg&&curveMode&&curveReplay){
+    var curveDefs={
+      linear:{color:"#d55e00",dash:"9 6",fn:function(u){return[u,1,0]},equation:"线性：s(u)=u",ends:"位置连续，但速度会从静止瞬间跳到 Δq/τ，并在终点瞬间回到零。",use:"作为对照基线，或用于允许端点速度突变的运动。",avoid:"要求平滑启停的硬件运动。"},
+      cubic:{color:"#0072b2",dash:"11 4 2 4",fn:function(u){return[3*u*u-2*u*u*u,6*u-6*u*u,6-12*u]},equation:"三次曲线：s(u)=3u²−2u³",ends:"s′(0)=s′(1)=0，但 s″(0)=6、s″(1)=−6，端点加速度仍会跳变。",use:"固定端点，而且只要求起止速度为零的过渡。",avoid:"快速重规划，或要求端点加速度也为零的运动。"},
+      quintic:{color:"#009e73",dash:"",fn:function(u){return[10*u*u*u-15*u*u*u*u+6*u*u*u*u*u,30*u*u-60*u*u*u+30*u*u*u*u,60*u-180*u*u+120*u*u*u]},equation:"五次曲线：s(u)=10u³−15u⁴+6u⁵",ends:"s′(0)=s′(1)=s″(0)=s″(1)=0。",use:"固定时长的回零、准备动作或路点过渡，且速度和加速度都需要平滑。",avoid:"在 τ 结束前仍会变化的目标；反复重启曲线会增加滞后。"}
+    };
+    var curveRows=[{label:"位置  s(u)",y:20,h:82,min:0,max:1},{label:"速度  s′(u)",y:137,h:82,min:0,max:2},{label:"加速度  s″(u)",y:254,h:82,min:-6,max:6}],curveKeys=["linear","cubic","quintic"],curveDots=[],curveCursor=null,curveRaf=0;
+    function curveY(row,value){return row.y+row.h-(value-row.min)/(row.max-row.min)*row.h}
+    function curvePath(key,rowIndex){var d="",row=curveRows[rowIndex];for(var i=0;i<=120;i++){var u=i/120,x=108+u*766,y=curveY(row,curveDefs[key].fn(u)[rowIndex]);d+=(i?"L":"M")+x.toFixed(2)+" "+y.toFixed(2)}return d}
+    function curveCard(title,copy){return "<div><b>"+title+"</b>"+copy+"</div>"}
+    function updateCurve(u){var x=108+u*766;if(curveCursor){curveCursor.setAttribute("x1",x);curveCursor.setAttribute("x2",x)}curveDots.forEach(function(dot){var row=curveRows[dot.row],value=curveDefs[dot.key].fn(u)[dot.row];dot.node.setAttribute("cx",x);dot.node.setAttribute("cy",curveY(row,value))})}
+    function drawCurves(){
+      while(curveSvg.firstChild)curveSvg.removeChild(curveSvg.firstChild);curveDots=[];
+      curveRows.forEach(function(row,index){
+        curveSvg.appendChild(el("text",{x:0,y:row.y+12,"font-size":10,"font-weight":700,fill:"#292a2d"},row.label));
+        [0,.5,1].forEach(function(p){var y=row.y+p*row.h;curveSvg.appendChild(el("line",{x1:108,y1:y,x2:874,y2:y,stroke:p===1?"#cfcec8":"#e9e8e4","stroke-width":1}))});
+        curveSvg.appendChild(el("text",{x:98,y:row.y+5,"font-size":9,fill:"#9ca2aa","text-anchor":"end"},String(row.max)));
+        curveSvg.appendChild(el("text",{x:98,y:row.y+row.h+3,"font-size":9,fill:"#9ca2aa","text-anchor":"end"},String(row.min)));
+        curveKeys.forEach(function(key){var compare=curveMode.value==="compare",active=compare||curveMode.value===key;curveSvg.appendChild(el("path",{d:curvePath(key,index),fill:"none",stroke:curveDefs[key].color,"stroke-width":active?(compare?2.8:3.5):1.9,"stroke-dasharray":curveDefs[key].dash,opacity:active?1:.55,"stroke-linejoin":"round","stroke-linecap":"round"}))});
+      });
+      var linearActive=curveMode.value==="compare"||curveMode.value==="linear",velocityRow=curveRows[1],v0=curveY(velocityRow,0),v1=curveY(velocityRow,1);
+      [108,874].forEach(function(x){curveSvg.appendChild(el("line",{x1:x,y1:v0,x2:x,y2:v1,stroke:curveDefs.linear.color,"stroke-width":1.8,"stroke-dasharray":"5 4",opacity:linearActive?1:.55}))});
+      [0,.25,.5,.75,1].forEach(function(u){var x=108+u*766;curveSvg.appendChild(el("line",{x1:x,y1:342,x2:x,y2:347,stroke:"#cfcec8"}));curveSvg.appendChild(el("text",{x:x,y:361,"font-size":9,fill:"#9ca2aa","text-anchor":"middle"},u.toFixed(2))) });
+      curveSvg.appendChild(el("text",{x:886,y:361,"font-size":10,"font-style":"italic",fill:"#73777e"},"u"));
+      curveCursor=el("line",{x1:108,y1:15,x2:108,y2:337,stroke:"#292a2d","stroke-width":1,"stroke-dasharray":"3 4",opacity:.55});curveSvg.appendChild(curveCursor);
+      curveKeys.forEach(function(key){var active=curveMode.value==="compare"||curveMode.value===key;curveRows.forEach(function(row,rowIndex){var dot=el("circle",{r:active?4.5:3,fill:curveDefs[key].color,opacity:active?1:.6,stroke:"#fff","stroke-width":1.2});curveSvg.appendChild(dot);curveDots.push({key:key,row:rowIndex,node:dot})})});
+      var selected=curveMode.value;
+      if(selected==="compare"){
+        curveEquation.textContent="线性：u  ·  三次：3u²−2u³  ·  五次：10u³−15u⁴+6u⁵";
+        curveOut.innerHTML=curveCard("端点差异","线性曲线的速度会跳变；三次曲线把端点速度降到零；五次曲线进一步把端点加速度也降到零。")+curveCard("选择依据","看速度和加速度约束，不要只看位置曲线是否顺眼。")+curveCard("不能替代","RTC 时间对齐，或用于连续噪声的因果滤波器。");
+      }else{
+        var def=curveDefs[selected];curveEquation.textContent=def.equation;curveOut.innerHTML=curveCard("端点状态",def.ends)+curveCard("适合",def.use)+curveCard("不适合",def.avoid);
+      }
+      updateCurve(0);
+    }
+    function playCurve(){cancelAnimationFrame(curveRaf);var start=performance.now();function frame(now){var u=Math.min(1,(now-start)/2600);updateCurve(u);if(u<1)curveRaf=requestAnimationFrame(frame)}curveRaf=requestAnimationFrame(frame)}
+    curveMode.addEventListener("change",function(){drawCurves();playCurve()});curveReplay.addEventListener("click",playCurve);drawCurves();
+    if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches&&"IntersectionObserver" in window){var curveObserver=new IntersectionObserver(function(entries){if(entries.some(function(e){return e.isIntersecting})){playCurve();curveObserver.disconnect()}},{threshold:.25});curveObserver.observe(curveFigure)}else if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches){playCurve()}else{updateCurve(.5)}
+  }
+})();
+</script>
+</body>
+</html>
