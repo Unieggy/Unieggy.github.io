@@ -31,16 +31,6 @@ function Shape({ type, color }: { type: "square" | "circle" | "diamond"; color: 
   return <span style={{ ...base, borderRadius: 1 }} />;
 }
 
-const photos = [
-  { label: "Sudoku",       src: "/sudoku.png" },
-  { label: "Engineering",  src: "/eng.jpg" },
-  { label: "Matcha",       src: "/matcha.jpg" },
-  { label: "Plushies",     src: "/nailongxm.jpg" },
-  { label: "Multitasking", src: "/multitask.jpg" },
-  { label: "BFRB",         src: "/stress.png" },
-];
-
-
 export default function HobbiesSection() {
   const [active, setActive] = useState<Category>("All");
   const { t } = useLang();
@@ -61,34 +51,6 @@ export default function HobbiesSection() {
         {t.hobbies.bio.map((para, i) => (
           <p key={i}>{para}</p>
         ))}
-      </div>
-
-      {/* ── Divider ─────────────────────────────────────────── */}
-      <div className="border-t border-surface-border/60 my-15" />
-
-
-      {/* Things I Love */}
-      <p className="text-xs font-medium tracking-widest text-ash uppercase mb-7">
-        {t.hobbies.thingsILove}
-      </p>
-
-      {/* Photo strip */}
-      <div className="flex gap-3 overflow-x-auto pb-1">
-        {photos.map((p, i) => {
-          const caption = t.hobbies.photos[p.label as keyof typeof t.hobbies.photos];
-          return (
-            <div key={i} className="shrink-0">
-              <div className="w-24 h-24 overflow-hidden rounded-sm">
-                <img
-                  src={p.src}
-                  alt={caption}
-                  className="w-full h-full object-cover opacity-60 hover:opacity-80 transition-opacity duration-300"
-                />
-              </div>
-              <p className="text-ash text-xs mt-1.5">{caption}</p>
-            </div>
-          );
-        })}
       </div>
 
       {/* ── Divider ─────────────────────────────────────────── */}

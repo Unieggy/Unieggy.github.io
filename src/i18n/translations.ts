@@ -23,7 +23,6 @@ export const dict = {
     },
     hobbies: {
       about: "About",
-      thingsILove: "Things I Love",
       writing: "Writing",
       empty: "Nothing here yet.",
       bio: [
@@ -36,14 +35,6 @@ export const dict = {
         Technical: "Technical",
         Personal: "Personal",
         "Random Ideas": "Random Ideas",
-      },
-      photos: {
-        Sudoku: "Sudoku",
-        Engineering: "Engineering",
-        Matcha: "Matcha",
-        Plushies: "Plushies",
-        Multitasking: "Multitasking",
-        BFRB: "BFRB",
       },
     },
     langToggle: { label: "切换到中文", short: "中" },
@@ -65,7 +56,6 @@ export const dict = {
     },
     hobbies: {
       about: "关于",
-      thingsILove: "我喜欢的",
       writing: "写作",
       empty: "暂无内容。",
       bio: [
@@ -78,14 +68,6 @@ export const dict = {
         Technical: "技术",
         Personal: "个人",
         "Random Ideas": "随想",
-      },
-      photos: {
-        Sudoku: "数独",
-        Engineering: "工程",
-        Matcha: "抹茶",
-        Plushies: "玩偶",
-        Multitasking: "多任务",
-        BFRB: "BFRB",
       },
     },
     langToggle: { label: "Switch to English", short: "EN" },
