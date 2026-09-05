@@ -23,6 +23,7 @@ export const dict = {
     },
     hobbies: {
       about: "About",
+      thingsILove: "Things I Love",
       writing: "Writing",
       empty: "Nothing here yet.",
       bio: [
@@ -30,6 +31,13 @@ export const dict = {
         "I have a habit of dragging chatbots into infinite, good-natured arguments until I truly understand the concept behind it. I'm also constantly trying to wrap my head around the latest shifts in generative models and robotic architectures. Rather than just reading the theory, my main goal is to get my hands as dirty as possible with actual hardware and code, building alongside and learning from the greatest minds I can find.",
         "I also have what you might call “spiky attention”—or, if we're being generous, breadth-first thinking. My brain simply refuses to focus on just one thing at a time; for me to even feel like I'm actually working, I need to be juggling several tasks at once. I used to hate this about myself and fought it constantly, but I've slowly come to accept that I can't defy my own wiring: a little chaotic, but it turns out this is exactly how I operate best.",
       ],
+      interests: {
+        Sudoku: "Sudoku",
+        Engineering: "Engineering",
+        Matcha: "Matcha",
+        Plushies: "Plushies",
+        Multitasking: "Multitasking",
+      },
       categories: {
         All: "All",
         Technical: "Technical",
@@ -56,6 +64,7 @@ export const dict = {
     },
     hobbies: {
       about: "关于",
+      thingsILove: "我喜欢的",
       writing: "写作",
       empty: "暂无内容。",
       bio: [
@@ -63,6 +72,13 @@ export const dict = {
         "我有个习惯：喜欢把聊天机器人拖进无休止却友好的辩论，直到真正理解背后的概念为止。我也一直在努力搞懂生成模型与机器人架构的最新进展。比起只读理论，我更想尽可能地把手弄脏——直接上手真实的硬件与代码，与我能找到的最厉害的人一起构建、向他们学习。",
         "我还有一种可以称为“尖峰式注意力”的特质——说得好听点，是广度优先的思维方式。我的大脑就是拒绝一次只专注于一件事；只有同时处理好几项任务，我才真的觉得自己在工作。我曾经很讨厌这一点并不断与之对抗，但我慢慢接受了自己无法违抗大脑的构造：虽然有点混乱，但事实证明这正是我状态最好的方式。",
       ],
+      interests: {
+        Sudoku: "数独",
+        Engineering: "工程",
+        Matcha: "抹茶",
+        Plushies: "玩偶",
+        Multitasking: "多任务",
+      },
       categories: {
         All: "全部",
         Technical: "技术",
@@ -154,6 +170,8 @@ export const experienceData: ExperienceItem[] = [
 
 export interface PublicationItem {
   title: L;
+  /** Author names in order; the one matching HIGHLIGHT_AUTHOR is emphasised. */
+  authors?: string[];
   venue: string;
   year: string;
   abstract: L;
@@ -171,6 +189,15 @@ export const publicationsData: PublicationItem[] = [
       en: "DexFLEX: Contact-Aware Foundation Controller for Command-Guided Dexterity",
       zh: "DexFLEX：面向指令驱动灵巧操作的接触感知基础控制器",
     },
+    authors: [
+      "Weikang Wan",
+      "Zeyu Lai",
+      "Jianyu Hou",
+      "Yuchen Zhou",
+      "Jiawei Fu",
+      "Henrik I Christensen†",
+      "Hao Su†",
+    ],
     venue: "CoRL",
     year: "2026",
     abstract: {
@@ -186,6 +213,14 @@ export const publicationsData: PublicationItem[] = [
       en: "DexSeed: Scalable Physics-Grounded Demonstration Generation for Sim-to-Real Dexterous Manipulation",
       zh: "DexSeed：面向仿真到现实灵巧操作的可扩展物理接地演示生成",
     },
+    authors: [
+      "Weikang Wan",
+      "Jinqiu Wang",
+      "Jianyu Hou",
+      "Zeyu Lai",
+      "Henrik I Christensen†",
+      "Hao Su†",
+    ],
     venue: "Preprint",
     year: "2026",
     abstract: {

@@ -20,6 +20,7 @@ export default function PublicationsSection() {
           <PublicationCard
             key={i}
             title={pub.title[lang]}
+            authors={pub.authors}
             venue={pub.venue}
             year={pub.year}
             abstract={pub.abstract[lang]}

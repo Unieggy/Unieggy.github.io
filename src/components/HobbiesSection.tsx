@@ -31,6 +31,14 @@ function Shape({ type, color }: { type: "square" | "circle" | "diamond"; color: 
   return <span style={{ ...base, borderRadius: 1 }} />;
 }
 
+const interests = [
+  "Sudoku",
+  "Engineering",
+  "Matcha",
+  "Plushies",
+  "Multitasking",
+] as const;
+
 export default function HobbiesSection() {
   const [active, setActive] = useState<Category>("All");
   const { t } = useLang();
@@ -50,6 +58,25 @@ export default function HobbiesSection() {
       <div className="text-parchment/80 text-base font-light leading-relaxed max-w-2xl space-y-6">
         {t.hobbies.bio.map((para, i) => (
           <p key={i}>{para}</p>
+        ))}
+      </div>
+
+      {/* ── Divider ─────────────────────────────────────────── */}
+      <div className="border-t border-surface-border/60 my-15" />
+
+      {/* Things I Love */}
+      <p className="text-xs font-medium tracking-widest text-ash uppercase mb-7">
+        {t.hobbies.thingsILove}
+      </p>
+
+      <div className="flex flex-wrap gap-2">
+        {interests.map((key) => (
+          <span
+            key={key}
+            className="px-3 py-1.5 rounded-full border border-surface-border/60 text-ash text-xs"
+          >
+            {t.hobbies.interests[key]}
+          </span>
         ))}
       </div>
 

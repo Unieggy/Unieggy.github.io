@@ -1,7 +1,11 @@
 import { ArrowUpRight } from "lucide-react";
 
+/** The author whose name gets pulled out of the byline. */
+const HIGHLIGHT_AUTHOR = "Zeyu Lai";
+
 interface Publication {
   title: string;
+  authors?: string[];
   venue: string;
   year: string;
   abstract: string;
@@ -14,6 +18,7 @@ interface Publication {
 
 export default function PublicationCard({
   title,
+  authors,
   venue,
   year,
   abstract,
@@ -53,6 +58,21 @@ export default function PublicationCard({
         <h3 className="font-serif text-parchment font-semibold text-base leading-snug group-hover:text-sage transition-colors duration-200">
           {title}
         </h3>
+
+        {authors && authors.length > 0 && (
+          <p className="text-ash text-xs leading-relaxed">
+            {authors.map((name, i) => (
+              <span key={i}>
+                {name === HIGHLIGHT_AUTHOR ? (
+                  <span className="text-accent font-semibold">{name}</span>
+                ) : (
+                  name
+                )}
+                {i < authors.length - 1 && ", "}
+              </span>
+            ))}
+          </p>
+        )}
 
         <p className="text-sage text-xs font-medium tracking-wide">
           {venue} &middot; {year}

@@ -10,6 +10,7 @@
   --color-sage-light: #7a9e8c;
   --color-parchment: #e0e5e2;
   --color-ash: #8a9a92;
+  --color-accent: #d08a5f;
   --font-sans: var(--font-inter);
   --font-serif: var(--font-spectral);
   --font-heading: var(--font-lato);
@@ -25,6 +26,7 @@ html.dark {
   --color-sage-light: #7a9e8c;
   --color-parchment: #e8f1ec;
   --color-ash: #8a9a92;
+  --color-accent: #d08a5f;
 }
 
 /* ─── Light mode (.light class, or absence of .dark) ──────────────────────── */
@@ -37,6 +39,7 @@ html:not(.dark) {
   --color-sage-light: #2c4039;
   --color-parchment: #111211;
   --color-ash: #4a5750;
+  --color-accent: #a9502a;
 }
 
 /* ─── Base ─────────────────────────────────────────────────────────────────── */
