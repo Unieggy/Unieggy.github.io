@@ -177,9 +177,43 @@ export interface PublicationItem {
   abstract: L;
   link: string;
   imageSrc?: string;
+  /** Autoplaying clip shown in the card thumbnail instead of imageSrc. */
+  videoSrc?: string;
+  /** Still frame shown while videoSrc loads. */
+  posterSrc?: string;
 }
 
 export const publicationsData: PublicationItem[] = [
+  {
+    title: {
+      en: "DexFLEX: Contact-Aware Foundation Controller for Command-Guided Dexterity",
+      zh: "DexFLEX：面向指令驱动灵巧操作的接触感知基础控制器",
+    },
+    venue: "CoRL",
+    year: "2026",
+    abstract: {
+      en: "A contact-aware foundation controller that turns upstream fingertip-motion drafts, from teleoperation or a learned policy, into contact-consistent joint commands. The same trained controller improves robustness without retraining, raising real-world teleoperation success from 29.2% to 78.3%.",
+      zh: "一个接触感知的基础控制器，将来自遥操作或学习策略的指尖运动草案转化为接触一致的关节指令。同一个训练好的控制器无需重新训练即可提升鲁棒性，将真实世界遥操作成功率从 29.2% 提升至 78.3%。",
+    },
+    link: "https://dex-flex.github.io/",
+    videoSrc: "/publications/dexflex-real-policy.mp4",
+    posterSrc: "/publications/dexflex-real-policy.jpg",
+  },
+  {
+    title: {
+      en: "DexSeed: Scalable Physics-Grounded Demonstration Generation for Sim-to-Real Dexterous Manipulation",
+      zh: "DexSeed：面向仿真到现实灵巧操作的可扩展物理接地演示生成",
+    },
+    venue: "Preprint",
+    year: "2026",
+    abstract: {
+      en: "A physics-grounded pipeline that converts a handful of human RGB-D videos into large-scale dexterous manipulation datasets under randomized layout, geometry, appearance, and physics. It improves simulated downstream policy success by 33.2% on average and reaches 45% zero-shot real-world success from only three human videos per task.",
+      zh: "一个基于物理的流水线，在布局、几何、外观与物理属性的随机化下，将少量人类 RGB-D 视频转化为大规模灵巧操作数据集。该方法平均提升仿真下游策略成功率 33.2%，并且每个任务仅用三段人类视频即可达到 45% 的零样本真实世界成功率。",
+    },
+    link: "https://dexseed.github.io/",
+    videoSrc: "/publications/dexseed-overview.mp4",
+    posterSrc: "/publications/dexseed-overview.jpg",
+  },
   {
     title: {
       en: "Diving into the virtual realm: Exploring the mechanics of virtual reality",

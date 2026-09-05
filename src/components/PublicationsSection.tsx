@@ -25,6 +25,8 @@ export default function PublicationsSection() {
             abstract={pub.abstract[lang]}
             link={pub.link}
             imageSrc={pub.imageSrc}
+            videoSrc={pub.videoSrc}
+            posterSrc={pub.posterSrc}
             readLabel={t.publications.readPaper}
           />
         ))}
