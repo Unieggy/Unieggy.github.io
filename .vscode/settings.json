@@ -1,0 +1,27 @@
+{
+  // The compiled PDF *is* the CV the site serves, so build straight into public/.
+  // Aux files (.aux/.log/.fls/...) go to cv/build so they never reach the site.
+  "latex-workshop.latex.outDir": "%WORKSPACE_FOLDER%/public",
+  "latex-workshop.view.pdf.viewer": "tab",
+
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk-cv",
+      "command": "latexmk",
+      "args": [
+        "-pdf",
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-auxdir=%WORKSPACE_FOLDER%/cv/build",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {}
+    }
+  ],
+
+  "latex-workshop.latex.recipes": [
+    { "name": "CV → public/Michael_CV.pdf", "tools": ["latexmk-cv"] }
+  ]
+}

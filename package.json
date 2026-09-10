@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "cv": "latexmk -pdf -interaction=nonstopmode -halt-on-error -synctex=1 -outdir=cv/build cv/main.tex && cp cv/build/main.pdf public/Michael_CV.pdf"
+    "cv": "latexmk -pdf -interaction=nonstopmode -halt-on-error -synctex=1 -auxdir=cv/build -outdir=public cv/Michael_CV.tex"
   },
   "dependencies": {
     "@tsparticles/react": "^3.0.0",

@@ -47,3 +47,6 @@ next-env.d.ts
 
 # CV LaTeX source (kept local, never published)
 /cv/
+
+# LaTeX SyncTeX index sits next to the PDF but must not be published
+/public/*.synctex.gz
