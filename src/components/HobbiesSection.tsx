@@ -33,11 +33,20 @@ function Shape({ type, color }: { type: "square" | "circle" | "diamond"; color: 
 
 const interests = [
   "Sudoku",
-  "Engineering",
   "Matcha",
   "Plushies",
   "Multitasking",
+  "XRecommender",
+  "GeminiSpark",
+  "MacKeyboard",
+  "Btw",
+  "HatchPets",
 ] as const;
+
+const dislikes = ["LinkedInPosts", "CodexPermissions", "JargonFirst"] as const;
+
+const pillClass =
+  "px-3 py-1.5 rounded-full border border-surface-border/60 text-ash text-xs";
 
 export default function HobbiesSection() {
   const [active, setActive] = useState<Category>("All");
@@ -71,11 +80,21 @@ export default function HobbiesSection() {
 
       <div className="flex flex-wrap gap-2">
         {interests.map((key) => (
-          <span
-            key={key}
-            className="px-3 py-1.5 rounded-full border border-surface-border/60 text-ash text-xs"
-          >
+          <span key={key} className={pillClass}>
             {t.hobbies.interests[key]}
+          </span>
+        ))}
+      </div>
+
+      {/* Things I Don't Like */}
+      <p className="text-xs font-medium tracking-widest text-ash uppercase mt-12 mb-7">
+        {t.hobbies.thingsIDontLike}
+      </p>
+
+      <div className="flex flex-wrap gap-2">
+        {dislikes.map((key) => (
+          <span key={key} className={pillClass}>
+            {t.hobbies.dislikes[key]}
           </span>
         ))}
       </div>
