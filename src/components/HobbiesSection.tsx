@@ -40,7 +40,6 @@ const interests = [
   "GeminiSpark",
   "MacKeyboard",
   "Btw",
-  "HatchPets",
 ] as const;
 
 const dislikes = ["LinkedInPosts", "CodexPermissions", "JargonFirst"] as const;

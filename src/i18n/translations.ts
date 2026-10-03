@@ -9,7 +9,7 @@ export const dict = {
     nav: { home: "Home", projects: "Projects", about: "About Me", logo: "Zeyu Lai" },
     hero: {
       name: "Zeyu (Michael) Lai",
-      bio: "Undergraduate Student interested in world action models, reinforcement learning, and in-context learning",
+      bio: "Undergraduate Student interested in world action models, reinforcement learning, and test-time adaptation",
       cv: "CV",
     },
     education: { heading: "Education" },
@@ -41,7 +41,6 @@ export const dict = {
         GeminiSpark: "Gemini's daily Spark digest",
         MacKeyboard: "Mac's native keyboard",
         Btw: "/btw",
-        HatchPets: "Hatching pets",
       },
       dislikes: {
         LinkedInPosts: "LinkedIn posts (most of them)",
@@ -61,7 +60,7 @@ export const dict = {
     nav: { home: "首页", projects: "项目", about: "关于我", logo: "赖泽宇" },
     hero: {
       name: "赖泽宇 (Michael)",
-      bio: "本科生，研究方向包括世界动作模型、强化学习与上下文学习",
+      bio: "本科生，研究方向包括世界动作模型、强化学习与测试时自适应",
       cv: "简历",
     },
     education: { heading: "教育经历" },
@@ -79,9 +78,9 @@ export const dict = {
       writing: "写作",
       empty: "暂无内容。",
       bio: [
-        "你好，我是赖泽宇（Michael）。我在加州大学圣地亚哥分校读大二。我有口吃，还有两只我特别喜欢的玩偶（英文版里没写）。",
+        "你好，我是赖泽宇（Michael）。我在加州大学圣地亚哥分校读大二。我有口吃，还有两只我特别喜欢的玩偶。",
         "我喜欢把聊天机器人拖进无休止却友好的辩论，直到我真正（或者基本）理解背后的概念为止。我也一直在努力搞懂生成模型与 Embodied AI 的最新进展。比起只读理论，我更想尽可能地上手真实的硬件与代码，与我能找到的最厉害的人一起构建、向他们学习。",
-        "我还有一种可以称为“尖峰式注意力”的多任务能力。我的大脑就是拒绝一次只专注于一件事；只有同时处理好几项任务，我才真的觉得自己在工作 😁",
+        "我还有一种可以称为“尖峰式注意力”的多任务能力。我的大脑就是拒绝一次只专注于一件事；只有同时处理好几项任务，我才真的觉得自己在工作",
       ],
       interests: {
         Sudoku: "数独",
@@ -89,10 +88,9 @@ export const dict = {
         Plushies: "玩偶",
         Multitasking: "多任务",
         XRecommender: "X 的推荐算法",
-        GeminiSpark: "Gemini Spark的每日推送",
+        GeminiSpark: "Gemini Spark 的每日推送",
         MacKeyboard: "Mac 原生键盘",
         Btw: "/btw",
-        HatchPets: "codex桌宠",
       },
       dislikes: {
         LinkedInPosts: "LinkedIn 上的帖子（大部分）",
@@ -180,7 +178,7 @@ export const experienceData: ExperienceItem[] = [
       en: "Triton AI — UC San Diego",
       zh: "Triton AI · 加州大学圣地亚哥分校",
     },
-    period: "Oct 2025 — Present",
+    period: "Oct 2025 — May 2026",
     detail: {
       en: "LiDAR–camera fusion for FTENTH and path planning for an autonomous go-kart.",
       zh: "为 F1TENTH 实现激光雷达与相机融合，并为自主卡丁车设计路径规划。",
@@ -322,17 +320,6 @@ export const projectsData: ProjectItem[] = [
     imageSrc: "/interface.png",
   },
   {
-    title: { en: "LeRobot SO-101 VLA Policy", zh: "LeRobot SO-101 VLA 策略" },
-    year: "2026",
-    description: {
-      en: "Currently developing an end-to-end Vision-Language-Action (VLA) policy pipeline for the LeRobot SO-101 robotic arm. The project focuses on data collection, imitation learning, and deploying state-of-the-art transformer architectures for continuous robotic manipulation tasks.",
-      zh: "正在为 LeRobot SO-101 机械臂开发端到端的视觉-语言-动作（VLA）策略流程。项目聚焦于数据采集、模仿学习，以及部署前沿的 Transformer 架构以完成连续机器人操作任务。",
-    },
-    stack: ["Python", "PyTorch", "LeRobot", "Hugging Face", "VLA Models", "SO-101 Arm"],
-    githubUrl: "https://github.com/Unieggy/roboticarm-project",
-    imageSrc: "https://placehold.co/256x144/161c18/3d5048?text=LeRobot+VLA",
-  },
-  {
     title: {
       en: "RL & Path Planning Algorithms (Gymnasium)",
       zh: "强化学习与路径规划算法（Gymnasium）",
@@ -345,20 +332,6 @@ export const projectsData: ProjectItem[] = [
     stack: ["Python", "PyTorch", "Gymnasium", "Reinforcement Learning"],
     githubUrl: "https://github.com/Unieggy/rl-algs-and-random-algs",
     imageSrc: "/rl:pathplanning.png",
-  },
-  {
-    title: {
-      en: "Isaac RL Tasks: Custom Manipulation Environments",
-      zh: "Isaac 强化学习任务：自定义操作环境",
-    },
-    year: "2026",
-    description: {
-      en: "A collection of custom reinforcement learning environments built on NVIDIA's IsaacGymEnvs. Designed to port manipulation tasks from established simulators (ManiSkill, RoboSuite) into Isaac Gym's massively parallel GPU simulation for extremely fast policy training at scale.",
-      zh: "一组基于 NVIDIA IsaacGymEnvs 构建的自定义强化学习环境。旨在将已有模拟器（ManiSkill、RoboSuite）中的操作任务移植到 Isaac Gym 的大规模并行 GPU 仿真中，以实现极快的大规模策略训练。",
-    },
-    stack: ["Python", "Isaac Gym", "Reinforcement Learning", "PyTorch", "GPU Simulation"],
-    githubUrl: "https://github.com/Unieggy/isaac-rl-tasks",
-    imageSrc: "/issacgym.jpg",
   },
   {
     title: { en: "Uniq: Intelligent Browser Automation", zh: "Uniq：智能浏览器自动化" },
