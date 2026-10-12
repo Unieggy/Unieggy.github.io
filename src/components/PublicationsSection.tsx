@@ -15,6 +15,12 @@ export default function PublicationsSection() {
       </h2>
       <Squiggle width={220} />
 
+      <p className="-mt-4 mb-6 text-ash text-xs">
+        <sup className="text-[1.25em] top-[-0.3em]">*</sup> {t.publications.equalContribution}
+        <span className="mx-2 opacity-50">·</span>
+        <sup className="text-[1.25em] top-[-0.3em]">†</sup> {t.publications.equalAdvising}
+      </p>
+
       <div className="flex flex-col gap-4">
         {publicationsData.map((pub, i) => (
           <PublicationCard

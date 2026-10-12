@@ -14,7 +14,12 @@ export const dict = {
     },
     education: { heading: "Education" },
     experience: { heading: "Experience" },
-    publications: { heading: "Research & Publications", readPaper: "Read Paper" },
+    publications: {
+      heading: "Research & Publications",
+      readPaper: "Read Paper",
+      equalContribution: "Equal contribution",
+      equalAdvising: "Equal advising",
+    },
     projects: {
       heading: "Projects",
       subtitle:
@@ -65,7 +70,12 @@ export const dict = {
     },
     education: { heading: "教育经历" },
     experience: { heading: "研究与工作经历" },
-    publications: { heading: "研究与论文", readPaper: "阅读论文" },
+    publications: {
+      heading: "研究与论文",
+      readPaper: "阅读论文",
+      equalContribution: "同等贡献",
+      equalAdvising: "共同指导",
+    },
     projects: {
       heading: "项目",
       subtitle: "在机器人学习、硬件集成与机器学习基础设施方向上的精选技术项目。",

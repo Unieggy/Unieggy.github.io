@@ -3,6 +3,12 @@ import { ArrowUpRight } from "lucide-react";
 /** The author whose name gets pulled out of the byline. */
 const HIGHLIGHT_AUTHOR = "Zeyu Lai";
 
+/** Split "Hao Su†" into ["Hao Su", "†"] so the markers can't break the name match. */
+function splitMarks(name: string): [string, string] {
+  const m = name.match(/^(.*?)\s*([*†‡]*)$/);
+  return m ? [m[1], m[2]] : [name, ""];
+}
+
 interface Publication {
   title: string;
   authors?: string[];
@@ -61,16 +67,20 @@ export default function PublicationCard({
 
         {authors && authors.length > 0 && (
           <p className="text-ash text-xs leading-relaxed">
-            {authors.map((name, i) => (
-              <span key={i}>
-                {name === HIGHLIGHT_AUTHOR ? (
-                  <span className="text-accent font-semibold">{name}</span>
-                ) : (
-                  name
-                )}
-                {i < authors.length - 1 && ", "}
-              </span>
-            ))}
+            {authors.map((author, i) => {
+              const [name, marks] = splitMarks(author);
+              return (
+                <span key={i}>
+                  {name === HIGHLIGHT_AUTHOR ? (
+                    <span className="text-accent font-semibold">{name}</span>
+                  ) : (
+                    name
+                  )}
+                  {marks && <sup className="text-[1.25em] top-[-0.3em]">{marks}</sup>}
+                  {i < authors.length - 1 && ", "}
+                </span>
+              );
+            })}
           </p>
         )}
 
