@@ -40,6 +40,7 @@ export const dict = {
       interests: {
         Sudoku: "Sudoku",
         Matcha: "Matcha",
+        YuzuHoney: "Yuzu honey",
         Plushies: "Plushies",
         Multitasking: "Multitasking",
         XRecommender: "X's recommender",
@@ -95,6 +96,7 @@ export const dict = {
       interests: {
         Sudoku: "数独",
         Matcha: "抹茶",
+        YuzuHoney: "柚子蜜",
         Plushies: "玩偶",
         Multitasking: "多任务",
         XRecommender: "X 的推荐算法",

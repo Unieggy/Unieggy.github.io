@@ -34,6 +34,7 @@ function Shape({ type, color }: { type: "square" | "circle" | "diamond"; color: 
 const interests = [
   "Sudoku",
   "Matcha",
+  "YuzuHoney",
   "Plushies",
   "Multitasking",
   "XRecommender",
